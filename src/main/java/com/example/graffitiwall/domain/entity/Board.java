@@ -1,6 +1,7 @@
 package com.example.graffitiwall.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,11 +26,19 @@ public class Board extends BaseTime{
     private String category;
 
     @Column(name = "is_private", nullable = false)
-    private Boolean isPrivate;
+    private boolean isPrivate;
 
     @Column(name = "password", length = 30, nullable = true)
     private String password;
 
     @OneToMany(mappedBy = "board")
     private List<Postit> postits = new ArrayList<>();
+
+    @Builder
+    public Board(String title, String category, boolean isPrivate, String password) {
+        this.title = title;
+        this.category = category;
+        this.isPrivate = isPrivate;
+        this.password = password;
+    }
 }

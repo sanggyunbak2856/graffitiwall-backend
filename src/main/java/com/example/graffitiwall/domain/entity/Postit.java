@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "postit")
-public class Postit {
+public class Postit extends BaseTime{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -41,29 +41,19 @@ public class Postit {
     @Column(columnDefinition = "integer default 0")
     private Integer views;
 
-    @CreatedDate
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
 
     @Builder
     public Postit(String title, String color, int positionX, int positionY, String contents,
-                  int angle, LocalDateTime createdAt, LocalDateTime updatedAt, Board board) {
+                  int angle, Board board) {
         this.title = title;
         this.color = color;
         this.positionX = positionX;
         this.positionY = positionY;
         this.contents = contents;
         this.angle = angle;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
         this.board = board;
     }
 }

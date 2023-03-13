@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "board")
-public class Board {
+public class Board extends BaseTime{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -29,12 +29,6 @@ public class Board {
 
     @Column(name = "password", length = 30, nullable = true)
     private String password;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "board")
     private List<Postit> postits = new ArrayList<>();

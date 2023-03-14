@@ -67,6 +67,21 @@ class PostitRepositoryTest {
 
     @Test
     @Transactional
+    void 디비에_포스트잇_저장시_생성시간과_수정시간이_저장된다() {
+        // given
+        boardRepository.save(board);
+
+        // when
+        Postit savedPostit = postitRepository.save(postit);
+
+        // then
+        assertThat(postit).isEqualTo(savedPostit);
+        assertThat(savedPostit.getCreatedAt()).isNotNull();
+        assertThat(savedPostit.getUpdatedAt()).isNotNull();
+    }
+
+    @Test
+    @Transactional
     void 디비에서_포스트잇을_조회한다() {
         // given
         boardRepository.save(board);
@@ -111,5 +126,22 @@ class PostitRepositoryTest {
         assertThat(updatedPostit.getId()).isEqualTo(savedPostit.getId());
         assertThat(updatedPostit.getColor()).isEqualTo("blue");
         assertThat(updatedPostit.getTitle()).isEqualTo("bye");
+    }
+
+    @Test
+    @Transactional
+    void 디비에서_포스트잇을_수정시_업데이트_시간이_수정된다() throws InterruptedException {
+        // given
+        boardRepository.save(board);
+        postitRepository.save(postit);
+
+        // when
+        Thread.sleep(2000);
+        postit.setColor("blue");
+        postit.setTitle("bye");
+        Postit updatedPostit = postitRepository.save(postit);
+
+        // then
+        assertThat(postit.getUpdatedAt()).isNotEqualTo(updatedPostit.getUpdatedAt());
     }
 }

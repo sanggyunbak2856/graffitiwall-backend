@@ -28,7 +28,7 @@ public class Board extends BaseTime{
     @Column(name = "password", length = 30, nullable = true)
     private String password;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Postit> postits = new ArrayList<>();
 
     @Builder

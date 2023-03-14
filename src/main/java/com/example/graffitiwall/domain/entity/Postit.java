@@ -52,5 +52,15 @@ public class Postit extends BaseTime{
         this.contents = contents;
         this.angle = angle;
         this.board = board;
+        if(this.board.getPostits() != null) {
+            board.getPostits().add(this);
+        }
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+        if(board.getPostits() != null) {
+            board.getPostits().add(this);
+        }
     }
 }

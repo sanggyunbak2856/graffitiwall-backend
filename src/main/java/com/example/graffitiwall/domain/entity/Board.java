@@ -1,16 +1,13 @@
 package com.example.graffitiwall.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter
+@Getter @Setter @ToString
 @NoArgsConstructor
 @Entity
 @Table(name = "board")
@@ -31,7 +28,7 @@ public class Board extends BaseTime{
     @Column(name = "password", length = 30, nullable = true)
     private String password;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Postit> postits = new ArrayList<>();
 
     @Builder

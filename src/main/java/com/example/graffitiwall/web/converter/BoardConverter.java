@@ -1,17 +1,17 @@
 package com.example.graffitiwall.web.converter;
 
 import com.example.graffitiwall.domain.entity.Board;
-import com.example.graffitiwall.web.dto.board.BoardPostDto;
+import com.example.graffitiwall.web.dto.board.BoardSaveDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BoardConverter {
-    public Board boardPostDtoToEntity(BoardPostDto boardPostDto) {
+    public Board boardPostDtoToEntity(BoardSaveDto boardSaveDto) {
         return Board.builder()
-                .category(boardPostDto.getCategory())
-                .isPrivate(boardPostDto.isPrivate())
-                .title(boardPostDto.getTitle())
-                .password(boardPostDto.getPassword())
+                .category(boardSaveDto.getCategory())
+                .isPrivate(boardSaveDto.isPrivate())
+                .title(boardSaveDto.getTitle())
+                .password(boardSaveDto.getPassword())
                 .build();
     }
 }

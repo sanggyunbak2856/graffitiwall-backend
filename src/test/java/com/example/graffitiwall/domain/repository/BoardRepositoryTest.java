@@ -128,4 +128,24 @@ public class BoardRepositoryTest {
         // then
         assertThat(foundBoard.get()).isEqualTo(savedBoard);
     }
+
+    @Test
+    @Transactional
+    void 디비에서_보드를_수정한다() {
+        // given
+        Board board = Board.builder()
+                .title("hello board")
+                .isPrivate(false)
+                .category("category")
+                .build();
+        Board savedBoard = boardRepository.save(board);
+
+        // when
+        board.setTitle("bye board");
+        Board updatedBoard = boardRepository.save(board);
+
+        // then
+        assertThat(updatedBoard.getTitle()).isEqualTo("bye board");
+        assertThat(updatedBoard.getId()).isEqualTo(savedBoard.getId());
+    }
 }

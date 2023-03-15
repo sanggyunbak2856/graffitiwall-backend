@@ -35,7 +35,6 @@ class BoardServiceTest {
     @Transactional
     void BoardService로_보드를_저장한다() {
         // given
-        BoardConverter boardConverter = new BoardConverter();
         BoardPostDto boardPostDto = BoardPostDto.builder()
                 .title("hello world")
                 .category("lecture")

@@ -2,15 +2,18 @@ package com.example.graffitiwall.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
-@Getter @Setter @ToString
+@Getter @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "postit")
+@DynamicInsert
 public class Postit extends BaseTime{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +38,8 @@ public class Postit extends BaseTime{
     @Column(name = "angle", nullable = false)
     private int angle;
 
-    @Column(columnDefinition = "integer default 0")
+    @Column(name = "views")
+    @ColumnDefault("0")
     private Integer views;
 
     @ManyToOne
@@ -52,15 +56,5 @@ public class Postit extends BaseTime{
         this.contents = contents;
         this.angle = angle;
         this.board = board;
-        if(this.board.getPostits() != null) {
-            board.getPostits().add(this);
-        }
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
-        if(board.getPostits() != null) {
-            board.getPostits().add(this);
-        }
     }
 }

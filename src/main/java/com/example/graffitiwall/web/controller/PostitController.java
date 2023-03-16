@@ -2,6 +2,7 @@ package com.example.graffitiwall.web.controller;
 
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
+import com.example.graffitiwall.web.dto.postit.PostitUpdateDto;
 import com.example.graffitiwall.web.service.PostitService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,5 +24,10 @@ public class PostitController {
     @GetMapping("/{postitId}")
     public PostitResponseDto findByid(@PathVariable Long postitId) {
         return postitService.findById(postitId);
+    }
+
+    @PatchMapping("/{postitId}")
+    public Long updateById(@PathVariable Long postitId, @RequestBody PostitUpdateDto postitUpdateDto) {
+        return postitService.update(postitId, postitUpdateDto);
     }
 }

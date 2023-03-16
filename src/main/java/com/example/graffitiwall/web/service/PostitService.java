@@ -47,4 +47,10 @@ public class PostitService {
         postitConverter.postitUpdate(foundPostit, postitUpdateDto);
         return foundPostit.getId();
     }
+
+    @Transactional
+    public Long deleteById(Long id) {
+        postitRepository.deleteById(id);
+        return id;
+    }
 }

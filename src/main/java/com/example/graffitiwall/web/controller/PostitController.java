@@ -30,4 +30,9 @@ public class PostitController {
     public Long updateById(@PathVariable Long postitId, @RequestBody PostitUpdateDto postitUpdateDto) {
         return postitService.update(postitId, postitUpdateDto);
     }
+
+    @DeleteMapping("/{postitId}")
+    public Long deleteById(@PathVariable Long postitId) {
+        return postitService.deleteById(postitId);
+    }
 }

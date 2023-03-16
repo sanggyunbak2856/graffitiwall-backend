@@ -6,7 +6,7 @@ import com.example.graffitiwall.domain.repository.BoardRepository;
 import com.example.graffitiwall.domain.repository.PostitRepository;
 import com.example.graffitiwall.web.converter.PostitConverter;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
-import com.example.graffitiwall.web.dto.postit.PostitSaveAndUpdateDto;
+import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +28,10 @@ public class PostitService {
     }
 
     @Transactional
-    public Long save(PostitSaveAndUpdateDto postitSaveAndUpdateDto) {
-        Postit postit = postitConverter.postitSaveDtoToEntity(postitSaveAndUpdateDto);
+    public Long save(PostitSaveDto postitSaveDto) {
+        Postit postit = postitConverter.postitSaveDtoToEntity(postitSaveDto);
         // 추후 예외처리 필요함
-        Board board = boardRepository.findById(postitSaveAndUpdateDto.getBoardId()).get();
+        Board board = boardRepository.findById(postitSaveDto.getBoardId()).get();
         postit.setBoard(board);
         board.getPostits().add(postit);
         Postit savedPostit = postitRepository.save(postit);
@@ -39,7 +39,7 @@ public class PostitService {
     }
 
     @Transactional
-    public Long update(Long id, PostitSaveAndUpdateDto postitSaveAndUpdateDto) {
+    public Long update(Long id, PostitSaveDto postitSaveDto) {
         return null;
     }
 }

@@ -1,7 +1,7 @@
 package com.example.graffitiwall.web.controller;
 
 import com.example.graffitiwall.web.dto.board.BoardSaveDto;
-import com.example.graffitiwall.web.dto.postit.PostitSaveAndUpdateDto;
+import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
 import com.example.graffitiwall.web.service.BoardService;
 import com.example.graffitiwall.web.service.PostitService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,7 +44,7 @@ class PostitControllerTest {
                 .title("hello world")
                 .build();
         Long boardId = boardService.save(boardSaveDto);
-        PostitSaveAndUpdateDto postitSaveAndUpdateDto = PostitSaveAndUpdateDto.builder()
+        PostitSaveDto postitSaveDto = PostitSaveDto.builder()
                 .angle(0)
                 .boardId(boardId)
                 .color("red")
@@ -53,7 +53,7 @@ class PostitControllerTest {
                 .positionY(0)
                 .title("hello world")
                 .build();
-        String json = objectMapper.writer().writeValueAsString(postitSaveAndUpdateDto);
+        String json = objectMapper.writer().writeValueAsString(postitSaveDto);
         log.info(json);
 
         // when, then
@@ -73,7 +73,7 @@ class PostitControllerTest {
                 .title("hello world")
                 .build();
         Long boardId = boardService.save(boardSaveDto);
-        PostitSaveAndUpdateDto postitSaveAndUpdateDto = PostitSaveAndUpdateDto.builder()
+        PostitSaveDto postitSaveDto = PostitSaveDto.builder()
                 .angle(0)
                 .boardId(boardId)
                 .color("red")
@@ -82,7 +82,7 @@ class PostitControllerTest {
                 .positionY(0)
                 .title("hello world")
                 .build();
-        Long postitId = postitService.save(postitSaveAndUpdateDto);
+        Long postitId = postitService.save(postitSaveDto);
 
         // when, then
         mockMvc.perform(get("/api/v1/postit/" + postitId))

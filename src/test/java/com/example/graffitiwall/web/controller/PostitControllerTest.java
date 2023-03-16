@@ -128,4 +128,30 @@ class PostitControllerTest {
         ).andExpect(status().isOk())
          .andDo(print());
     }
+
+    @Test
+    void 포스트잇을_삭제한다() throws Exception {
+        // given
+        BoardSaveDto boardSaveDto = BoardSaveDto.builder()
+                .category("category")
+                .isPrivate(false)
+                .title("hello world")
+                .build();
+        Long boardId = boardService.save(boardSaveDto);
+        PostitSaveDto postitSaveDto = PostitSaveDto.builder()
+                .angle(0)
+                .boardId(boardId)
+                .color("red")
+                .content("hello world")
+                .positionX(0)
+                .positionY(0)
+                .title("hello world")
+                .build();
+        Long postitId = postitService.save(postitSaveDto);
+
+        // when, then
+        mockMvc.perform(delete("/api/v1/postit/" + postitId))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }

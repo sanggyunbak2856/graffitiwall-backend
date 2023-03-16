@@ -2,8 +2,10 @@ package com.example.graffitiwall.web.controller;
 
 import com.example.graffitiwall.web.dto.board.BoardSaveDto;
 import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
+import com.example.graffitiwall.web.dto.postit.PostitUpdateDto;
 import com.example.graffitiwall.web.service.BoardService;
 import com.example.graffitiwall.web.service.PostitService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -13,9 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -88,5 +90,42 @@ class PostitControllerTest {
         mockMvc.perform(get("/api/v1/postit/" + postitId))
                 .andExpect(status().isOk())
                 .andDo(print());
+    }
+
+    @Test
+    void 포스트잇을_수정한다() throws Exception {
+        // given
+        BoardSaveDto boardSaveDto = BoardSaveDto.builder()
+                .category("category")
+                .isPrivate(false)
+                .title("hello world")
+                .build();
+        Long boardId = boardService.save(boardSaveDto);
+        PostitSaveDto postitSaveDto = PostitSaveDto.builder()
+                .angle(0)
+                .boardId(boardId)
+                .color("red")
+                .content("hello world")
+                .positionX(0)
+                .positionY(0)
+                .title("hello world")
+                .build();
+        Long postitId = postitService.save(postitSaveDto);
+        PostitUpdateDto postitUpdateDto = PostitUpdateDto.builder()
+                .angle(100)
+                .color("blue")
+                .positionX(20)
+                .positionY(30)
+                .content("bye world")
+                .title("bye world")
+                .build();
+        String json = objectMapper.writer().writeValueAsString(postitUpdateDto);
+
+        // when, then
+        mockMvc.perform(patch("/api/v1/postit/" + postitId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+        ).andExpect(status().isOk())
+         .andDo(print());
     }
 }

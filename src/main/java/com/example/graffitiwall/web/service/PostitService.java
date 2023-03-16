@@ -7,12 +7,15 @@ import com.example.graffitiwall.domain.repository.PostitRepository;
 import com.example.graffitiwall.web.converter.PostitConverter;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
+import com.example.graffitiwall.web.dto.postit.PostitUpdateDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PostitService {
@@ -39,7 +42,9 @@ public class PostitService {
     }
 
     @Transactional
-    public Long update(Long id, PostitSaveDto postitSaveDto) {
-        return null;
+    public Long update(Long id, PostitUpdateDto postitUpdateDto) {
+        Postit foundPostit = postitRepository.findById(id).get();
+        postitConverter.postitUpdate(foundPostit, postitUpdateDto);
+        return foundPostit.getId();
     }
 }

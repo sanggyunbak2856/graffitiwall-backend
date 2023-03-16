@@ -121,4 +121,13 @@ class PostitServiceTest {
         assertThat(updatedPostit.getTitle()).isEqualTo(postitUpdateDto.getTitle());
     }
 
+    @Test
+    void 포스트잇_서비스로_포스트잇을_삭제한다() {
+        // when
+        postitService.deleteById(1L);
+
+        // then
+        then(postitRepository).should().deleteById(any());
+    }
+
 }

@@ -7,6 +7,7 @@ import com.example.graffitiwall.domain.repository.PostitRepository;
 import com.example.graffitiwall.web.converter.PostitConverter;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
+import com.example.graffitiwall.web.dto.postit.PostitUpdateDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -78,6 +80,45 @@ class PostitServiceTest {
 
         // then
         assertThat(postitResponseDto.getPostitId()).isEqualTo(postit.getId());
+    }
+
+    @Test
+    void 포스트잇_서비스로_포스트잇을_수정한다() {
+        // given
+        Board board = Board.builder().build();
+        board.setId(1L);
+        Postit postit = Postit.builder()
+                .title("postit")
+                .positionY(10)
+                .positionX(10)
+                .contents("hello world")
+                .color("red")
+                .board(board)
+                .angle(10)
+                .build();
+        postit.setViews(1);
+        postit.setId(1L);
+        when(postitRepository.findById(any())).thenReturn(Optional.of(postit));
+        PostitUpdateDto postitUpdateDto = PostitUpdateDto.builder()
+                .content("b").title("c").positionY(100).positionX(100)
+                .color("white").angle(55)
+                .build();
+
+
+        // when
+        Long updatedId = postitService.update(1L, postitUpdateDto);
+
+        // then
+        then(postitConverter).should().postitUpdate(any(), any());
+        assertThat(updatedId).isEqualTo(postit.getId());
+
+        Postit updatedPostit = postitRepository.findById(updatedId).get();
+        assertThat(updatedPostit.getPositionY()).isEqualTo(postitUpdateDto.getPositionY());
+        assertThat(updatedPostit.getPositionX()).isEqualTo(postitUpdateDto.getPositionX());
+        assertThat(updatedPostit.getColor()).isEqualTo(postitUpdateDto.getColor());
+        assertThat(updatedPostit.getContents()).isEqualTo(postitUpdateDto.getContent());
+        assertThat(updatedPostit.getAngle()).isEqualTo(postitUpdateDto.getAngle());
+        assertThat(updatedPostit.getTitle()).isEqualTo(postitUpdateDto.getTitle());
     }
 
 }

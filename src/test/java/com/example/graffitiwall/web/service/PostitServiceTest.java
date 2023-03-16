@@ -6,13 +6,11 @@ import com.example.graffitiwall.domain.repository.BoardRepository;
 import com.example.graffitiwall.domain.repository.PostitRepository;
 import com.example.graffitiwall.web.converter.PostitConverter;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
-import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
-import org.assertj.core.api.Assertions;
+import com.example.graffitiwall.web.dto.postit.PostitSaveAndUpdateDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -43,15 +41,15 @@ class PostitServiceTest {
                 .build();
         board.setId(1L);
         when(boardRepository.findById(any())).thenReturn(Optional.of(board));
-        PostitSaveDto postitSaveDto = PostitSaveDto.builder()
+        PostitSaveAndUpdateDto postitSaveAndUpdateDto = PostitSaveAndUpdateDto.builder()
                 .boardId(1L)
                 .build();
-        Postit postit = postitConverter.postitSaveDtoToEntity(postitSaveDto);
+        Postit postit = postitConverter.postitSaveDtoToEntity(postitSaveAndUpdateDto);
         postit.setId(1L);
         when(postitRepository.save(any())).thenReturn(postit);
 
         // when
-        Long savedId = postitService.save(postitSaveDto);
+        Long savedId = postitService.save(postitSaveAndUpdateDto);
 
         // then
         assertThat(savedId).isEqualTo(1L);

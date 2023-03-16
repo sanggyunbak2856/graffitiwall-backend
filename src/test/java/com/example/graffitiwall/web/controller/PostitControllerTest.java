@@ -1,10 +1,9 @@
 package com.example.graffitiwall.web.controller;
 
 import com.example.graffitiwall.web.dto.board.BoardSaveDto;
-import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
+import com.example.graffitiwall.web.dto.postit.PostitSaveAndUpdateDto;
 import com.example.graffitiwall.web.service.BoardService;
 import com.example.graffitiwall.web.service.PostitService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -13,8 +12,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -47,7 +44,7 @@ class PostitControllerTest {
                 .title("hello world")
                 .build();
         Long boardId = boardService.save(boardSaveDto);
-        PostitSaveDto postitSaveDto = PostitSaveDto.builder()
+        PostitSaveAndUpdateDto postitSaveAndUpdateDto = PostitSaveAndUpdateDto.builder()
                 .angle(0)
                 .boardId(boardId)
                 .color("red")
@@ -56,7 +53,7 @@ class PostitControllerTest {
                 .positionY(0)
                 .title("hello world")
                 .build();
-        String json = objectMapper.writer().writeValueAsString(postitSaveDto);
+        String json = objectMapper.writer().writeValueAsString(postitSaveAndUpdateDto);
         log.info(json);
 
         // when, then
@@ -76,7 +73,7 @@ class PostitControllerTest {
                 .title("hello world")
                 .build();
         Long boardId = boardService.save(boardSaveDto);
-        PostitSaveDto postitSaveDto = PostitSaveDto.builder()
+        PostitSaveAndUpdateDto postitSaveAndUpdateDto = PostitSaveAndUpdateDto.builder()
                 .angle(0)
                 .boardId(boardId)
                 .color("red")
@@ -85,7 +82,7 @@ class PostitControllerTest {
                 .positionY(0)
                 .title("hello world")
                 .build();
-        Long postitId = postitService.save(postitSaveDto);
+        Long postitId = postitService.save(postitSaveAndUpdateDto);
 
         // when, then
         mockMvc.perform(get("/api/v1/postit/" + postitId))

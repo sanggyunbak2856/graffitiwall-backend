@@ -1,7 +1,7 @@
 package com.example.graffitiwall.web.controller;
 
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
-import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
+import com.example.graffitiwall.web.dto.postit.PostitSaveAndUpdateDto;
 import com.example.graffitiwall.web.service.PostitService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +16,8 @@ public class PostitController {
     private final PostitService postitService;
 
     @PostMapping
-    public Long save(@RequestBody PostitSaveDto postitSaveDto) {
-        return postitService.save(postitSaveDto);
+    public Long save(@RequestBody PostitSaveAndUpdateDto postitSaveAndUpdateDto) {
+        return postitService.save(postitSaveAndUpdateDto);
     }
 
     @GetMapping("/{postitId}")

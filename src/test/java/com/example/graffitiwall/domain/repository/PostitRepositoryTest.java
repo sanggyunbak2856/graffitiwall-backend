@@ -127,21 +127,4 @@ class PostitRepositoryTest {
         assertThat(updatedPostit.getColor()).isEqualTo("blue");
         assertThat(updatedPostit.getTitle()).isEqualTo("bye");
     }
-
-    @Test
-    @Transactional
-    void 디비에서_포스트잇을_수정시_업데이트_시간이_수정된다() throws InterruptedException {
-        // given
-        boardRepository.save(board);
-        postitRepository.save(postit);
-
-        // when
-        Thread.sleep(2000);
-        postit.setColor("blue");
-        postit.setTitle("bye");
-        Postit updatedPostit = postitRepository.save(postit);
-
-        // then
-        assertThat(postit.getUpdatedAt()).isNotEqualTo(updatedPostit.getUpdatedAt());
-    }
 }

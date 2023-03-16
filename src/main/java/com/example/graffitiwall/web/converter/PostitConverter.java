@@ -3,6 +3,7 @@ package com.example.graffitiwall.web.converter;
 import com.example.graffitiwall.domain.entity.Postit;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
+import com.example.graffitiwall.web.dto.postit.PostitUpdateDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -34,5 +35,12 @@ public class PostitConverter {
                 .build();
     }
 
-
+    public void postitUpdate(Postit postit, PostitUpdateDto postitUpdateDto) {
+        postit.setTitle(postitUpdateDto.getTitle());
+        postit.setColor(postitUpdateDto.getColor());
+        postit.setAngle(postitUpdateDto.getAngle());
+        postit.setContents(postitUpdateDto.getContent());
+        postit.setPositionX(postitUpdateDto.getPositionX());
+        postit.setPositionY(postitUpdateDto.getPositionY());
+    }
 }

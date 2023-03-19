@@ -31,6 +31,10 @@ public class Board extends BaseTime{
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Postit> postits = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Builder
     public Board(String title, String category, boolean isPrivate, String password) {
         this.title = title;

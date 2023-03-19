@@ -46,9 +46,13 @@ public class Postit extends BaseTime{
     @JoinColumn(name = "board_id")
     private Board board;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Builder
     public Postit(String title, String color, int positionX, int positionY, String contents,
-                  int angle, Board board) {
+                  int angle, Board board, User user) {
         this.title = title;
         this.color = color;
         this.positionX = positionX;

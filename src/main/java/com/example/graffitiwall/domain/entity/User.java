@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
@@ -39,10 +40,10 @@ public class User {
     private UserStatus status;
 
     @OneToMany(mappedBy = "user")
-    private List<Board> boards;
+    private List<Board> boards = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Postit> postits;
+    private List<Postit> postits = new ArrayList<>();
 
     @Builder
     public User(String userId, String password, String email, String imageUrl, String introduce, UserStatus status) {

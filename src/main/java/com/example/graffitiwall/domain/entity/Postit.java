@@ -40,7 +40,7 @@ public class Postit extends BaseTime{
 
     @Column(name = "views")
     @ColumnDefault("0")
-    private Integer views;
+    private int views;
 
     @ManyToOne
     @JoinColumn(name = "board_id")

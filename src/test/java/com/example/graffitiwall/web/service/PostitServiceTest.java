@@ -2,8 +2,10 @@ package com.example.graffitiwall.web.service;
 
 import com.example.graffitiwall.domain.entity.Board;
 import com.example.graffitiwall.domain.entity.Postit;
+import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.repository.BoardRepository;
 import com.example.graffitiwall.domain.repository.PostitRepository;
+import com.example.graffitiwall.domain.repository.UserRepository;
 import com.example.graffitiwall.web.converter.PostitConverter;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
@@ -32,6 +34,9 @@ class PostitServiceTest {
     @Mock
     BoardRepository boardRepository;
 
+    @Mock
+    UserRepository userRepository;
+
     @Spy
     PostitConverter postitConverter;
 
@@ -41,8 +46,10 @@ class PostitServiceTest {
     @Test
     void 포스트잇을_포스트잇서비스로_저장한다() {
         // given
-        Board board = Board.builder()
-                .build();
+        User user = User.builder().build();
+        user.setId(1L);
+        when(userRepository.findById(any())).thenReturn(Optional.of(user));
+        Board board = Board.builder().build();
         board.setId(1L);
         when(boardRepository.findById(any())).thenReturn(Optional.of(board));
         PostitSaveDto postitSaveDto = PostitSaveDto.builder()
@@ -57,6 +64,7 @@ class PostitServiceTest {
 
         // then
         log.info("board postits : {}", board.getPostits());
+        log.info("user postits : {}", user.getPostits());
         assertThat(savedId).isEqualTo(1L);
         assertThat(board.getPostits().size()).isEqualTo(1);
     }

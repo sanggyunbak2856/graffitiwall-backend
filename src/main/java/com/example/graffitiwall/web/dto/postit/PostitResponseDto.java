@@ -21,4 +21,6 @@ public class PostitResponseDto {
     private LocalDateTime updatedAt;
     private int angle;
     private Long boardId;
+    private Long userId;
+    private String writer;
 }

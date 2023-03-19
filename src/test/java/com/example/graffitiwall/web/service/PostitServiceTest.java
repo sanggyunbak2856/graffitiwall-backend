@@ -72,6 +72,9 @@ class PostitServiceTest {
     @Test
     void 포스트잇서비스로_포스트잇을_조회한다() {
         // given
+        User user = User.builder().build();
+        user.setId(1L);
+        user.setUserId("userA");
         Board board = Board.builder().build();
         board.setId(1L);
         Postit postit = Postit.builder()
@@ -80,10 +83,11 @@ class PostitServiceTest {
                 .positionX(10)
                 .contents("hello world")
                 .color("red")
-                .board(board)
                 .angle(10)
                 .build();
         postit.setViews(1);
+        postit.setBoard(board);
+        postit.setUser(user);
         when(postitRepository.findById(any())).thenReturn(Optional.of(postit));
 
         // when
@@ -91,6 +95,7 @@ class PostitServiceTest {
 
         // then
         assertThat(postitResponseDto.getPostitId()).isEqualTo(postit.getId());
+        assertThat(postitResponseDto.getWriter()).isEqualTo(postit.getUser().getUserId());
     }
 
     @Test

@@ -12,6 +12,7 @@ public class PostitConverter {
         return PostitResponseDto.builder()
                 .angle(postit.getAngle())
                 .boardId(postit.getBoard().getId())
+                .userId(postit.getUser().getId())
                 .postitId(postit.getId())
                 .color(postit.getColor())
                 .contents(postit.getContents())
@@ -21,6 +22,7 @@ public class PostitConverter {
                 .positionY(postit.getPositionY())
                 .title(postit.getTitle())
                 .views(postit.getViews())
+                .writer(postit.getUser().getUserId())
                 .build();
     }
 

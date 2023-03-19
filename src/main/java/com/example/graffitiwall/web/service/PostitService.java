@@ -36,7 +36,6 @@ public class PostitService {
         // 추후 예외처리 필요함
         Board board = boardRepository.findById(postitSaveDto.getBoardId()).get();
         postit.setBoard(board);
-        board.getPostits().add(postit);
         Postit savedPostit = postitRepository.save(postit);
         return savedPostit.getId();
     }

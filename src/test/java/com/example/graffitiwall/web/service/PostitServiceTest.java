@@ -8,6 +8,7 @@ import com.example.graffitiwall.web.converter.PostitConverter;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
 import com.example.graffitiwall.web.dto.postit.PostitUpdateDto;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,6 +22,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
+@Slf4j
 @ExtendWith(MockitoExtension.class)
 class PostitServiceTest {
 
@@ -54,6 +56,7 @@ class PostitServiceTest {
         Long savedId = postitService.save(postitSaveDto);
 
         // then
+        log.info("board postits : {}", board.getPostits());
         assertThat(savedId).isEqualTo(1L);
         assertThat(board.getPostits().size()).isEqualTo(1);
     }

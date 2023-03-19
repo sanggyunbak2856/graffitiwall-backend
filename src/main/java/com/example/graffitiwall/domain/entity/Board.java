@@ -28,14 +28,27 @@ public class Board extends BaseTime{
     @Column(name = "password", length = 30, nullable = true)
     private String password;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Postit> postits = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Builder
-    public Board(String title, String category, boolean isPrivate, String password) {
+    public Board(String title, String category, boolean isPrivate, String password, User user) {
         this.title = title;
         this.category = category;
         this.isPrivate = isPrivate;
         this.password = password;
+        this.user = user;
+    }
+
+    public void setUser(User user) {
+        if(this.user != null) {
+            this.user.getBoards().remove(this);
+        }
+        this.user = user;
+        this.user.getBoards().add(this);
     }
 }

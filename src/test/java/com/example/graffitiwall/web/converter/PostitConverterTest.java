@@ -2,6 +2,7 @@ package com.example.graffitiwall.web.converter;
 
 import com.example.graffitiwall.domain.entity.Board;
 import com.example.graffitiwall.domain.entity.Postit;
+import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.repository.PostitRepository;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitUpdateDto;
@@ -27,22 +28,26 @@ class PostitConverterTest {
     @Test
     void 포스트잇_엔티티를_포스트잇_응답_dto로_변환() {
         // given
+        User user = User.builder().build();
+        user.setId(1L);
+        user.setUserId("userA");
         Board board = Board.builder().build();
         board.setId(1L);
+        board.setUser(user);
         Postit postit = Postit.builder()
                 .title("postit")
                 .positionY(10)
                 .positionX(10)
                 .contents("hello world")
                 .color("red")
-                .board(board)
                 .angle(10)
                 .build();
         postit.setId(1L);
         postit.setCreatedAt(LocalDateTime.now());
         postit.setUpdatedAt(LocalDateTime.now());
         postit.setViews(1);
-
+        postit.setBoard(board);
+        postit.setUser(user);
 
         // when
         PostitResponseDto postitResponseDto = postitConverter.entityToPostitResponseDto(postit);
@@ -58,6 +63,7 @@ class PostitConverterTest {
         assertThat(postitResponseDto.getPositionY()).isEqualTo(postit.getPositionY());
         assertThat(postitResponseDto.getBoardId()).isEqualTo(postit.getBoard().getId());
         assertThat(postitResponseDto.getViews()).isEqualTo(postit.getViews());
+        assertThat(postitResponseDto.getUserId()).isEqualTo(postit.getUser().getId());
     }
 
     @Test

@@ -13,4 +13,5 @@ public class PostitSaveDto {
     private int positionY;
     private int angle;
     private Long boardId;
+    private Long userId;
 }

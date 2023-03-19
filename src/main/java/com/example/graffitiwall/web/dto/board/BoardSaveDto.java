@@ -10,4 +10,5 @@ public class BoardSaveDto {
     private String category;
     private boolean isPrivate;
     private String password;
+    private Long userId;
 }

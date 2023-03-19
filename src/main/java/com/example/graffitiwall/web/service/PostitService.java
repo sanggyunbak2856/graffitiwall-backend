@@ -2,8 +2,10 @@ package com.example.graffitiwall.web.service;
 
 import com.example.graffitiwall.domain.entity.Board;
 import com.example.graffitiwall.domain.entity.Postit;
+import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.repository.BoardRepository;
 import com.example.graffitiwall.domain.repository.PostitRepository;
+import com.example.graffitiwall.domain.repository.UserRepository;
 import com.example.graffitiwall.web.converter.PostitConverter;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
@@ -22,6 +24,7 @@ public class PostitService {
 
     private final PostitRepository postitRepository;
     private final BoardRepository boardRepository;
+    private final UserRepository userRepository;
     private final PostitConverter postitConverter;
 
     @Transactional
@@ -35,7 +38,9 @@ public class PostitService {
         Postit postit = postitConverter.postitSaveDtoToEntity(postitSaveDto);
         // 추후 예외처리 필요함
         Board board = boardRepository.findById(postitSaveDto.getBoardId()).get();
+        User user = userRepository.findById(postitSaveDto.getUserId()).get();
         postit.setBoard(board);
+        postit.setUser(user);
         Postit savedPostit = postitRepository.save(postit);
         return savedPostit.getId();
     }

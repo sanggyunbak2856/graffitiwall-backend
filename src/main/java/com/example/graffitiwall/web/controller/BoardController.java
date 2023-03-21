@@ -1,12 +1,10 @@
 package com.example.graffitiwall.web.controller;
 
+import com.example.graffitiwall.web.dto.board.BoardResponseDto;
 import com.example.graffitiwall.web.dto.board.BoardSaveDto;
 import com.example.graffitiwall.web.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,5 +16,10 @@ public class BoardController {
     public Long save(@RequestBody BoardSaveDto boardSaveDto) {
         Long savedId = boardService.save(boardSaveDto);
         return savedId;
+    }
+
+    @GetMapping("/{boardId}")
+    public BoardResponseDto findById(@PathVariable  Long boardId) {
+        return boardService.findById(boardId);
     }
 }

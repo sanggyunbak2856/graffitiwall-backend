@@ -38,13 +38,13 @@ class BoardControllerTest {
                 .introduce("hello")
                 .userId("userA")
                 .build();
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
         BoardSaveDto boardSaveDto = BoardSaveDto.builder()
                 .category("category")
                 .title("title")
                 .isPrivate(false)
-                .userId(1L)
+                .userId(savedUser.getId())
                 .build();
         String json = objectMapper.writer().writeValueAsString(boardSaveDto);
         mockMvc.perform(post("/api/v1/boards")

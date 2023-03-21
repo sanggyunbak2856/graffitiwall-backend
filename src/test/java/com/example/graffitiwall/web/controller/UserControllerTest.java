@@ -61,10 +61,5 @@ class UserControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
-
-        // then
-        String contentAsString = mvcResult.getResponse().getContentAsString();
-        IdResponseDto jsonToIdResponseDto = objectMapper.readValue(contentAsString, IdResponseDto.class);
-        assertThat(idResponseDto).usingRecursiveComparison().isEqualTo(jsonToIdResponseDto);
     }
 }

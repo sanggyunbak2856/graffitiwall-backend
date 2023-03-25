@@ -22,6 +22,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static com.example.graffitiwall.factory.DummyObjectFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -102,6 +104,28 @@ class BoardControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
+
+        // then
+        Board foundBoard = boardRepository.findById(savedBoard.getId()).get();
+        assertThat(foundBoard.getTitle()).isEqualTo(savedBoard.getTitle());
+    }
+
+    @Test
+    @Transactional
+    void 보드_삭제_테스트() throws Exception {
+        // given
+        Board board = createFakeBoard();
+        Board savedBoard = boardRepository.save(board);
+
+        // when
+        mockMvc.perform(delete(url + "/" + savedBoard.getId()))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        // then
+        Optional<Board> optionalBoard = boardRepository.findById(savedBoard.getId());
+        assertThat(optionalBoard).isEmpty();
     }
 
 }

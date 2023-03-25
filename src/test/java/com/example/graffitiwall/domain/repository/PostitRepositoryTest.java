@@ -3,6 +3,7 @@ package com.example.graffitiwall.domain.repository;
 import com.example.graffitiwall.domain.entity.Board;
 import com.example.graffitiwall.domain.entity.Postit;
 import com.example.graffitiwall.domain.repository.PostitRepository;
+import com.example.graffitiwall.factory.DummyObjectFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -14,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import static com.example.graffitiwall.factory.DummyObjectFactory.createFakeBoard;
+import static com.example.graffitiwall.factory.DummyObjectFactory.createFakePostit;
 import static org.assertj.core.api.Assertions.*;
 
 @Slf4j
@@ -30,20 +33,8 @@ class PostitRepositoryTest {
 
     @BeforeEach
     void beforeEach() {
-        board = Board.builder()
-                .category("category")
-                .isPrivate(false)
-                .title("hello")
-                .build();
-        postit = Postit.builder()
-                .title("postit")
-                .positionY(10)
-                .positionX(10)
-                .contents("hello world")
-                .color("red")
-                .board(board)
-                .angle(10)
-                .build();
+        board = createFakeBoard();
+        postit = createFakePostit();
     }
 
     @AfterEach

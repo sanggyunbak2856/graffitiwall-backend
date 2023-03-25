@@ -1,5 +1,6 @@
 package com.example.graffitiwall.web.controller;
 
+import com.example.graffitiwall.factory.DummyObjectFactory;
 import com.example.graffitiwall.web.dto.IdResponseDto;
 import com.example.graffitiwall.web.dto.user.UserSaveDto;
 import com.example.graffitiwall.web.service.UserService;
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static com.example.graffitiwall.factory.DummyObjectFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -36,21 +38,10 @@ class UserControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    UserSaveDto userSaveDto;
-
-    @BeforeEach
-    void beforeEach() {
-        userSaveDto = UserSaveDto.builder()
-                .userId("userA")
-                .password("password")
-                .email("email@email.com")
-                .introduce("hello world")
-                .build();
-    }
-
     @Test
     void 유저_컨트롤러_저장_테스트() throws Exception {
         // given
+        UserSaveDto userSaveDto = createFakeUserSaveDto();
         String json = objectMapper.writer().writeValueAsString(userSaveDto);
         IdResponseDto idResponseDto = IdResponseDto.builder().id(1L).build();
 

@@ -102,4 +102,15 @@ class BoardServiceTest {
         then(boardConverter).should().update(any(), any());
         assertThat(updatedId.getId()).isEqualTo(1L);
     }
+
+    @Test
+    void 보드_서비스로_보드를_삭제한다() {
+        // given
+
+        // when
+        boardService.deleteById(1L);
+
+        // then
+        then(boardRepository).should().deleteById(any());
+    }
 }

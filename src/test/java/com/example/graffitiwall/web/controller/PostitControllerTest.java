@@ -8,10 +8,8 @@ import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
 import com.example.graffitiwall.web.dto.postit.PostitUpdateDto;
 import com.example.graffitiwall.web.service.BoardService;
 import com.example.graffitiwall.web.service.PostitService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -69,7 +66,7 @@ class PostitControllerTest {
                 .angle(0)
                 .boardId(boardId)
                 .color("red")
-                .content("hello world")
+                .contents("hello world")
                 .positionX(0)
                 .positionY(0)
                 .title("hello world")
@@ -111,7 +108,7 @@ class PostitControllerTest {
                 .angle(0)
                 .boardId(boardId)
                 .color("red")
-                .content("hello world")
+                .contents("hello world")
                 .positionX(0)
                 .positionY(0)
                 .title("hello world")
@@ -150,7 +147,7 @@ class PostitControllerTest {
                 .angle(0)
                 .boardId(boardId)
                 .color("red")
-                .content("hello world")
+                .contents("hello world")
                 .positionX(0)
                 .positionY(0)
                 .title("hello world")
@@ -163,7 +160,7 @@ class PostitControllerTest {
                 .color("blue")
                 .positionX(20)
                 .positionY(30)
-                .content("bye world")
+                .contents("bye world")
                 .title("bye world")
                 .build();
         String json = objectMapper.writer().writeValueAsString(postitUpdateDto);
@@ -200,7 +197,7 @@ class PostitControllerTest {
                 .angle(0)
                 .boardId(boardId)
                 .color("red")
-                .content("hello world")
+                .contents("hello world")
                 .positionX(0)
                 .positionY(0)
                 .title("hello world")

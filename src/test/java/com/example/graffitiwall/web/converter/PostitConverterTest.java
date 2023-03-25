@@ -3,23 +3,13 @@ package com.example.graffitiwall.web.converter;
 import com.example.graffitiwall.domain.entity.Board;
 import com.example.graffitiwall.domain.entity.Postit;
 import com.example.graffitiwall.domain.entity.User;
-import com.example.graffitiwall.domain.repository.PostitRepository;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitUpdateDto;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class PostitConverterTest {
 
@@ -82,7 +72,7 @@ class PostitConverterTest {
                 .build();
         PostitUpdateDto postitUpdateDto = PostitUpdateDto.builder()
                 .angle(100)
-                .content("bye")
+                .contents("bye")
                 .color("blue")
                 .positionX(22)
                 .positionY(33)
@@ -95,7 +85,7 @@ class PostitConverterTest {
         // then
         assertThat(postit.getTitle()).isEqualTo(postitUpdateDto.getTitle());
         assertThat(postit.getAngle()).isEqualTo(postitUpdateDto.getAngle());
-        assertThat(postit.getContents()).isEqualTo(postitUpdateDto.getContent());
+        assertThat(postit.getContents()).isEqualTo(postitUpdateDto.getContents());
         assertThat(postit.getColor()).isEqualTo(postitUpdateDto.getColor());
         assertThat(postit.getPositionX()).isEqualTo(postitUpdateDto.getPositionX());
         assertThat(postit.getPositionY()).isEqualTo(postitUpdateDto.getPositionY());

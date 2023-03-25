@@ -116,7 +116,7 @@ class PostitServiceTest {
         postit.setId(1L);
         when(postitRepository.findById(any())).thenReturn(Optional.of(postit));
         PostitUpdateDto postitUpdateDto = PostitUpdateDto.builder()
-                .content("b").title("c").positionY(100).positionX(100)
+                .contents("b").title("c").positionY(100).positionX(100)
                 .color("white").angle(55)
                 .build();
 
@@ -132,7 +132,7 @@ class PostitServiceTest {
         assertThat(updatedPostit.getPositionY()).isEqualTo(postitUpdateDto.getPositionY());
         assertThat(updatedPostit.getPositionX()).isEqualTo(postitUpdateDto.getPositionX());
         assertThat(updatedPostit.getColor()).isEqualTo(postitUpdateDto.getColor());
-        assertThat(updatedPostit.getContents()).isEqualTo(postitUpdateDto.getContent());
+        assertThat(updatedPostit.getContents()).isEqualTo(postitUpdateDto.getContents());
         assertThat(updatedPostit.getAngle()).isEqualTo(postitUpdateDto.getAngle());
         assertThat(updatedPostit.getTitle()).isEqualTo(postitUpdateDto.getTitle());
     }

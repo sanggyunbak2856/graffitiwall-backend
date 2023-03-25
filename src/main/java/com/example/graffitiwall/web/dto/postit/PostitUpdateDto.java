@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class PostitUpdateDto {
     private String title;
-    private String content;
+    private String contents;
     private String color;
     private int positionX;
     private int positionY;

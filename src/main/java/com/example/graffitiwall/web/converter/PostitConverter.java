@@ -29,7 +29,7 @@ public class PostitConverter {
     public Postit postitSaveDtoToEntity(PostitSaveDto postitSaveDto) {
         return Postit.builder()
                 .angle(postitSaveDto.getAngle())
-                .contents(postitSaveDto.getContent())
+                .contents(postitSaveDto.getContents())
                 .color(postitSaveDto.getColor())
                 .positionX(postitSaveDto.getPositionX())
                 .positionY(postitSaveDto.getPositionY())
@@ -41,7 +41,7 @@ public class PostitConverter {
         postit.setTitle(postitUpdateDto.getTitle());
         postit.setColor(postitUpdateDto.getColor());
         postit.setAngle(postitUpdateDto.getAngle());
-        postit.setContents(postitUpdateDto.getContent());
+        postit.setContents(postitUpdateDto.getContents());
         postit.setPositionX(postitUpdateDto.getPositionX());
         postit.setPositionY(postitUpdateDto.getPositionY());
     }

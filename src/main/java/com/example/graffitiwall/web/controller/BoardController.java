@@ -1,12 +1,12 @@
 package com.example.graffitiwall.web.controller;
 
+import com.example.graffitiwall.web.dto.IdResponseDto;
+import com.example.graffitiwall.web.dto.board.BoardResponseDto;
 import com.example.graffitiwall.web.dto.board.BoardSaveDto;
+import com.example.graffitiwall.web.dto.board.BoardUpdateDto;
 import com.example.graffitiwall.web.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,5 +18,20 @@ public class BoardController {
     public Long save(@RequestBody BoardSaveDto boardSaveDto) {
         Long savedId = boardService.save(boardSaveDto);
         return savedId;
+    }
+
+    @GetMapping("/{boardId}")
+    public BoardResponseDto findById(@PathVariable  Long boardId) {
+        return boardService.findById(boardId);
+    }
+
+    @PatchMapping("/{boardId}")
+    public IdResponseDto update(@PathVariable Long boardId, @RequestBody BoardUpdateDto updateDto) {
+        return boardService.update(boardId, updateDto);
+    }
+
+    @DeleteMapping("/{boardId}")
+    public IdResponseDto deleteById(@PathVariable Long boardId) {
+        return boardService.deleteById(boardId);
     }
 }

@@ -1,21 +1,36 @@
 package com.example.graffitiwall.web.controller;
 
+import com.example.graffitiwall.domain.entity.Board;
 import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.entity.UserStatus;
+import com.example.graffitiwall.domain.repository.BoardRepository;
 import com.example.graffitiwall.domain.repository.UserRepository;
+import com.example.graffitiwall.factory.DummyObjectFactory;
 import com.example.graffitiwall.web.dto.board.BoardSaveDto;
+import com.example.graffitiwall.web.dto.board.BoardUpdateDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import java.util.Optional;
+
+import static com.example.graffitiwall.factory.DummyObjectFactory.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc
 class BoardControllerTest {
@@ -26,32 +41,91 @@ class BoardControllerTest {
     @Autowired
     private UserRepository userRepository;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    private BoardRepository boardRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    User user;
+    User savedUser;
+
+    private String url = "/api/v1/boards";
+
+    @BeforeEach
+    void beforeEach() {
+        user = createFakeUser();
+        savedUser = userRepository.save(user);
+    }
 
     @Test
     void 보드_저장_api_성공_테스트() throws Exception {
-        User user = User.builder()
-                .imageUrl("123")
-                .email("efe")
-                .password("grae")
-                .status(UserStatus.ACTIVE)
-                .introduce("hello")
-                .userId("userA")
-                .build();
-        User savedUser = userRepository.save(user);
-
-        BoardSaveDto boardSaveDto = BoardSaveDto.builder()
-                .category("category")
-                .title("title")
-                .isPrivate(false)
-                .userId(savedUser.getId())
-                .build();
+        BoardSaveDto boardSaveDto = createFakeBoardSaveDto(savedUser.getId());
         String json = objectMapper.writer().writeValueAsString(boardSaveDto);
-        mockMvc.perform(post("/api/v1/boards")
+        mockMvc.perform(post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isOk())
                 .andDo(print());
+    }
+
+    @Test
+    @Transactional
+    void 보드_조회_테스트() throws Exception {
+        // given
+        Board board = createFakeBoard();
+        board.setUser(savedUser);
+        Board savedBoard = boardRepository.save(board);
+
+        // when, then
+        MvcResult mvcResult = mockMvc.perform(get(url + "/" + savedBoard.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        log.info(contentAsString);
+    }
+
+    @Test
+    @Transactional
+    void 보드_수정_테스트() throws Exception {
+        // given
+        Board board = createFakeBoard();
+        BoardUpdateDto updateDto = createFakeBoardUpdateDto();
+        board.setUser(user);
+        Board savedBoard = boardRepository.save(board);
+        String json = objectMapper.writer().writeValueAsString(updateDto);
+
+        // when
+        mockMvc.perform(patch(url + "/" + savedBoard.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        // then
+        Board foundBoard = boardRepository.findById(savedBoard.getId()).get();
+        assertThat(foundBoard.getTitle()).isEqualTo(savedBoard.getTitle());
+    }
+
+    @Test
+    @Transactional
+    void 보드_삭제_테스트() throws Exception {
+        // given
+        Board board = createFakeBoard();
+        Board savedBoard = boardRepository.save(board);
+
+        // when
+        mockMvc.perform(delete(url + "/" + savedBoard.getId()))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        // then
+        Optional<Board> optionalBoard = boardRepository.findById(savedBoard.getId());
+        assertThat(optionalBoard).isEmpty();
     }
 
 }

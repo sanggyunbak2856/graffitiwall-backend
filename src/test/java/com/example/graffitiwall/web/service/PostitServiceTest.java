@@ -6,11 +6,13 @@ import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.repository.BoardRepository;
 import com.example.graffitiwall.domain.repository.PostitRepository;
 import com.example.graffitiwall.domain.repository.UserRepository;
+import com.example.graffitiwall.factory.DummyObjectFactory;
 import com.example.graffitiwall.web.converter.PostitConverter;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
 import com.example.graffitiwall.web.dto.postit.PostitUpdateDto;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static com.example.graffitiwall.factory.DummyObjectFactory.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
@@ -43,18 +46,25 @@ class PostitServiceTest {
     @InjectMocks
     PostitService postitService;
 
+    User user;
+    Board board;
+    Postit postit;
+
+    @BeforeEach
+    void beforeEach() {
+        user = createFakeUser();
+        board = createFakeBoard();
+        postit = createFakePostit();
+    }
+
     @Test
     void 포스트잇을_포스트잇서비스로_저장한다() {
         // given
-        User user = User.builder().build();
         user.setId(1L);
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
-        Board board = Board.builder().build();
         board.setId(1L);
         when(boardRepository.findById(any())).thenReturn(Optional.of(board));
-        PostitSaveDto postitSaveDto = PostitSaveDto.builder()
-                .boardId(1L)
-                .build();
+        PostitSaveDto postitSaveDto = createFakePostitSaveDto(user.getId(), board.getId());
         Postit postit = postitConverter.postitSaveDtoToEntity(postitSaveDto);
         postit.setId(1L);
         when(postitRepository.save(any())).thenReturn(postit);
@@ -63,8 +73,6 @@ class PostitServiceTest {
         Long savedId = postitService.save(postitSaveDto);
 
         // then
-        log.info("board postits : {}", board.getPostits());
-        log.info("user postits : {}", user.getPostits());
         assertThat(savedId).isEqualTo(1L);
         assertThat(board.getPostits().size()).isEqualTo(1);
     }
@@ -74,17 +82,9 @@ class PostitServiceTest {
         // given
         User user = User.builder().build();
         user.setId(1L);
-        user.setUserId("userA");
         Board board = Board.builder().build();
         board.setId(1L);
-        Postit postit = Postit.builder()
-                .title("postit")
-                .positionY(10)
-                .positionX(10)
-                .contents("hello world")
-                .color("red")
-                .angle(10)
-                .build();
+        Postit postit = createFakePostit();
         postit.setViews(1);
         postit.setBoard(board);
         postit.setUser(user);
@@ -103,22 +103,11 @@ class PostitServiceTest {
         // given
         Board board = Board.builder().build();
         board.setId(1L);
-        Postit postit = Postit.builder()
-                .title("postit")
-                .positionY(10)
-                .positionX(10)
-                .contents("hello world")
-                .color("red")
-                .board(board)
-                .angle(10)
-                .build();
+        Postit postit = createFakePostit();
         postit.setViews(1);
         postit.setId(1L);
         when(postitRepository.findById(any())).thenReturn(Optional.of(postit));
-        PostitUpdateDto postitUpdateDto = PostitUpdateDto.builder()
-                .contents("b").title("c").positionY(100).positionX(100)
-                .color("white").angle(55)
-                .build();
+        PostitUpdateDto postitUpdateDto = createFakePostitUpdateDto();
 
 
         // when

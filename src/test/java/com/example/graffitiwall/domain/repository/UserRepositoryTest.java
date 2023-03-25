@@ -3,9 +3,7 @@ package com.example.graffitiwall.domain.repository;
 import com.example.graffitiwall.domain.entity.Board;
 import com.example.graffitiwall.domain.entity.Postit;
 import com.example.graffitiwall.domain.entity.User;
-import com.example.graffitiwall.domain.entity.UserStatus;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
+import static com.example.graffitiwall.factory.DummyObjectFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -35,29 +32,9 @@ public class UserRepositoryTest {
 
     @BeforeEach
     void beforeEach() {
-        user = User.builder()
-                .status(UserStatus.ACTIVE)
-                .password("p")
-                .email("email@email.c")
-                .imageUrl("po.p")
-                .userId("userA")
-                .build();
-        board = Board.builder()
-                .category("category")
-                .isPrivate(false)
-                .title("hello")
-                .user(user)
-                .build();
-        postit = Postit.builder()
-                .title("postit")
-                .positionY(10)
-                .positionX(10)
-                .contents("hello world")
-                .color("red")
-                .board(board)
-                .user(user)
-                .angle(10)
-                .build();
+        user = createFakeUser();
+        board = createFakeBoard();
+        postit = createFakePostit();
     }
 
     @AfterEach

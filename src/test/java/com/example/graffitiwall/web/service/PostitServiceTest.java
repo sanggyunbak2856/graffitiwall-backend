@@ -6,7 +6,6 @@ import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.repository.BoardRepository;
 import com.example.graffitiwall.domain.repository.PostitRepository;
 import com.example.graffitiwall.domain.repository.UserRepository;
-import com.example.graffitiwall.factory.DummyObjectFactory;
 import com.example.graffitiwall.web.converter.PostitConverter;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
@@ -80,11 +79,8 @@ class PostitServiceTest {
     @Test
     void 포스트잇서비스로_포스트잇을_조회한다() {
         // given
-        User user = User.builder().build();
         user.setId(1L);
-        Board board = Board.builder().build();
         board.setId(1L);
-        Postit postit = createFakePostit();
         postit.setViews(1);
         postit.setBoard(board);
         postit.setUser(user);
@@ -101,9 +97,7 @@ class PostitServiceTest {
     @Test
     void 포스트잇_서비스로_포스트잇을_수정한다() {
         // given
-        Board board = Board.builder().build();
         board.setId(1L);
-        Postit postit = createFakePostit();
         postit.setViews(1);
         postit.setId(1L);
         when(postitRepository.findById(any())).thenReturn(Optional.of(postit));

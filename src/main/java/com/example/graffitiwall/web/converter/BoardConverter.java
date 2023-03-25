@@ -3,6 +3,7 @@ package com.example.graffitiwall.web.converter;
 import com.example.graffitiwall.domain.entity.Board;
 import com.example.graffitiwall.web.dto.board.BoardResponseDto;
 import com.example.graffitiwall.web.dto.board.BoardSaveDto;
+import com.example.graffitiwall.web.dto.board.BoardUpdateDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,5 +28,12 @@ public class BoardConverter {
                 .boardId(board.getId())
                 .userId(board.getUser().getId())
                 .build();
+    }
+
+    public void update(Board board, BoardUpdateDto updateDto) {
+        board.setTitle(updateDto.getTitle());
+        board.setCategory(updateDto.getCategory());
+        board.setPassword(updateDto.getPassword());
+        board.setPrivate(updateDto.isPrivate());
     }
 }

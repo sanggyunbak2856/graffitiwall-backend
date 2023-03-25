@@ -38,11 +38,15 @@ public class BoardService {
     }
 
     @Transactional
-    public IdResponseDto update(Long id, BoardUpdateDto updateDto) throws IllegalArgumentException {
+    public IdResponseDto update(Long id, BoardUpdateDto updateDto) {
         Board board = boardRepository.findById(id).get();
         boardConverter.update(board, updateDto);
         return IdResponseDto.builder().id(board.getId()).build();
     }
 
-
+    @Transactional
+    public IdResponseDto deleteById(Long id) {
+        boardRepository.deleteById(id);
+        return IdResponseDto.builder().id(id).build();
+    }
 }

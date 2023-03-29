@@ -9,6 +9,7 @@ import com.example.graffitiwall.web.dto.board.BoardUpdateDto;
 import com.example.graffitiwall.web.dto.postit.PostitSaveDto;
 import com.example.graffitiwall.web.dto.postit.PostitUpdateDto;
 import com.example.graffitiwall.web.dto.user.UserSaveDto;
+import com.example.graffitiwall.web.dto.user.UserUpdateDto;
 import com.github.javafaker.Faker;
 
 public class DummyObjectFactory {
@@ -29,6 +30,15 @@ public class DummyObjectFactory {
 
     public static UserSaveDto createFakeUserSaveDto() {
         return UserSaveDto.builder()
+                .password(faker.internet().password())
+                .userId(faker.name().username())
+                .email(faker.internet().emailAddress())
+                .introduce(faker.lorem().characters())
+                .build();
+    }
+
+    public static UserUpdateDto createFakeUserUpdateDto() {
+        return UserUpdateDto.builder()
                 .password(faker.internet().password())
                 .userId(faker.name().username())
                 .email(faker.internet().emailAddress())

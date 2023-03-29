@@ -2,11 +2,12 @@ package com.example.graffitiwall.web.converter;
 
 import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.web.dto.user.UserSaveDto;
+import com.example.graffitiwall.web.dto.user.UserUpdateDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.graffitiwall.factory.DummyObjectFactory.createFakeUser;
-import static com.example.graffitiwall.factory.DummyObjectFactory.createFakeUserSaveDto;
+import static com.example.graffitiwall.factory.DummyObjectFactory.*;
 import static org.assertj.core.api.Assertions.*;
 
 class UserConverterTest {
@@ -29,5 +30,22 @@ class UserConverterTest {
         assertThat(convertedUser.getUserId()).isEqualTo(userSaveDto.getUserId());
         assertThat(convertedUser.getEmail()).isEqualTo(userSaveDto.getEmail());
         assertThat(convertedUser.getPassword()).isEqualTo(userSaveDto.getPassword());
+    }
+
+    @Test
+    @Transactional
+    void 유저_엔티티를_UserUpdateDto로_수정한다() {
+        // given
+        UserUpdateDto userUpdateDto = createFakeUserUpdateDto();
+        User user = createFakeUser();
+
+        // when
+        userConverter.userUpdate(user, userUpdateDto);
+
+        // then
+        assertThat(user.getUserId()).isEqualTo(userUpdateDto.getUserId());
+        assertThat(user.getPassword()).isEqualTo(userUpdateDto.getPassword());
+        assertThat(user.getEmail()).isEqualTo(userUpdateDto.getEmail());
+        assertThat(user.getIntroduce()).isEqualTo(userUpdateDto.getIntroduce());
     }
 }

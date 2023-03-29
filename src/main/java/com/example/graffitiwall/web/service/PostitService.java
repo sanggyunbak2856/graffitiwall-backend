@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -31,6 +32,12 @@ public class PostitService {
     public PostitResponseDto findById(Long id) {
         Optional<Postit> optionalPostit = postitRepository.findById(id);
         return optionalPostit.isEmpty() ? null : postitConverter.entityToPostitResponseDto(optionalPostit.get());
+    }
+
+    @Transactional
+    public List<PostitResponseDto> findPostitByBoardId(Long id) {
+        return postitRepository.findPostitByBoard_Id(id)
+                .stream().map(postitConverter::entityToPostitResponseDto).toList();
     }
 
     @Transactional

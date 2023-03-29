@@ -1,8 +1,11 @@
 package com.example.graffitiwall.web.controller;
 
+import com.example.graffitiwall.domain.entity.User;
+import com.example.graffitiwall.domain.repository.UserRepository;
 import com.example.graffitiwall.factory.DummyObjectFactory;
 import com.example.graffitiwall.web.dto.IdResponseDto;
 import com.example.graffitiwall.web.dto.user.UserSaveDto;
+import com.example.graffitiwall.web.dto.user.UserUpdateDto;
 import com.example.graffitiwall.web.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,10 +19,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.graffitiwall.factory.DummyObjectFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -33,10 +38,12 @@ class UserControllerTest {
     MockMvc mockMvc;
 
     @Autowired
-    UserService userService;
+    UserRepository userRepository;
 
     @Autowired
     ObjectMapper objectMapper;
+
+    String url = "/api/v1/users";
 
     @Test
     void 유저_컨트롤러_저장_테스트() throws Exception {
@@ -46,11 +53,28 @@ class UserControllerTest {
         IdResponseDto idResponseDto = IdResponseDto.builder().id(1L).build();
 
         // when
-        MvcResult mvcResult = mockMvc.perform(post("/api/v1/users")
+        MvcResult mvcResult = mockMvc.perform(post(url)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
+    }
+
+    @Test
+    @Transactional
+    void 유저_업데이트_테스트() throws Exception {
+        // given
+        User user = createFakeUser();
+        User savedUser = userRepository.save(user);
+        UserUpdateDto userUpdateDto = createFakeUserUpdateDto();
+        String json = objectMapper.writeValueAsString(userUpdateDto);
+
+        // when
+        mockMvc.perform(patch(url + "/" + savedUser.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+        ).andExpect(status().isOk())
+         .andDo(print());
     }
 }

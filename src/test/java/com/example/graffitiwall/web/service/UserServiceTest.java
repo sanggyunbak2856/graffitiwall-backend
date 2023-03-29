@@ -3,7 +3,9 @@ package com.example.graffitiwall.web.service;
 import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.repository.UserRepository;
 import com.example.graffitiwall.web.converter.UserConverter;
+import com.example.graffitiwall.web.dto.IdResponseDto;
 import com.example.graffitiwall.web.dto.user.UserSaveDto;
+import com.example.graffitiwall.web.dto.user.UserUpdateDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,8 +14,12 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static com.example.graffitiwall.factory.DummyObjectFactory.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.when;
 
@@ -48,5 +54,20 @@ class UserServiceTest {
         then(userConverter).should().userSaveDtoToEntity(any());
         then(userRepository).should().save(any());
 
+    }
+
+    @Test
+    void 유저를_수정한다() {
+        // given
+        user.setId(1L);
+        given(userRepository.findById(any())).willReturn(Optional.of(user));
+        UserUpdateDto userUpdateDto = createFakeUserUpdateDto();
+
+        // when
+        IdResponseDto updatedUserId = userService.update(user.getId(), userUpdateDto);
+
+        // then
+        then(userConverter).should().userUpdate(any(), any());
+        assertThat(updatedUserId.getId()).isEqualTo(user.getId());
     }
 }

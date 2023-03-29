@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.example.graffitiwall.factory.DummyObjectFactory.createFakeBoard;
@@ -35,6 +36,7 @@ class PostitRepositoryTest {
     void beforeEach() {
         board = createFakeBoard();
         postit = createFakePostit();
+        postit.setBoard(board);
     }
 
     @AfterEach
@@ -83,6 +85,23 @@ class PostitRepositoryTest {
 
         // then
         assertThat(optionalPostit.get()).isEqualTo(postit);
+    }
+
+    @Test
+    @Transactional
+    void 포스트잇들을_보드_아이디로_조회한다() {
+        // given
+        Board savedBoard = boardRepository.save(board);
+        postitRepository.save(postit);
+        Postit postit2 = createFakePostit();
+        postit2.setBoard(board);
+        postitRepository.save(postit2);
+
+        // when
+        List<Postit> foundPostits = postitRepository.findPostitByBoard_Id(savedBoard.getId());
+
+        // then
+        assertThat(foundPostits).hasSize(2);
     }
 
     @Test

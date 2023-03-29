@@ -4,15 +4,20 @@ import com.example.graffitiwall.web.dto.IdResponseDto;
 import com.example.graffitiwall.web.dto.board.BoardResponseDto;
 import com.example.graffitiwall.web.dto.board.BoardSaveDto;
 import com.example.graffitiwall.web.dto.board.BoardUpdateDto;
+import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.service.BoardService;
+import com.example.graffitiwall.web.service.PostitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/boards")
 public class BoardController {
     private final BoardService boardService;
+    private final PostitService postitService;
 
     @PostMapping
     public Long save(@RequestBody BoardSaveDto boardSaveDto) {
@@ -23,6 +28,11 @@ public class BoardController {
     @GetMapping("/{boardId}")
     public BoardResponseDto findById(@PathVariable  Long boardId) {
         return boardService.findById(boardId);
+    }
+
+    @GetMapping("/{boardId}/postits")
+    public List<PostitResponseDto> findPostitByBoardId(@PathVariable Long boardId) {
+        return postitService.findPostitByBoardId(boardId);
     }
 
     @PatchMapping("/{boardId}")

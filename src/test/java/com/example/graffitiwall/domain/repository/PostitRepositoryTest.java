@@ -41,8 +41,8 @@ class PostitRepositoryTest {
 
     @AfterEach
     void afterEach() {
-        postitRepository.deleteAll();
-        boardRepository.deleteAll();
+//        postitRepository.deleteAll();
+//        boardRepository.deleteAll();
     }
 
     @Test

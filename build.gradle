@@ -2,6 +2,60 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.4'
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'jacoco'
+}
+
+private excludedClassFilesForReport(classDirectories) {
+    classDirectories.setFrom(
+            files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                        "**/*Dto*",
+                        "**/*Dto",
+                        "**/*Application*",
+                        "**/*Application",
+                        "**/entity/**",
+                        "com/example/graffitiwall/GraffitiwallApplication.java",
+                        "com/example/graffitiwall/web/dto/IdResponseDto.java"
+                ])
+            })
+    )
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled true
+        xml.enabled true
+        csv.enabled false
+
+        html.destination file("${buildDir}/jacoco/index.html")
+    }
+
+    excludedClassFilesForReport(classDirectories)
+
+    finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+        }
+    }
+
+    excludedClassFilesForReport(classDirectories)
+
 }
 
 group = 'com.example'
@@ -35,3 +89,4 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+

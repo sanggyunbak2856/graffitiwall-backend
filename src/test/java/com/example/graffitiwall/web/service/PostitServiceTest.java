@@ -77,6 +77,18 @@ class PostitServiceTest {
     }
 
     @Test
+    void 포스트잇_리포지토리에_해당id의_엔티티가_없으면_null을_반환한다() {
+        // given
+        when(postitRepository.findById(any())).thenReturn(Optional.empty());
+
+        // when
+        PostitResponseDto responseDto = postitService.findById(any());
+
+        // then
+        assertThat(responseDto).isNull();
+    }
+
+    @Test
     void 포스트잇서비스로_포스트잇을_조회한다() {
         // given
         user.setId(1L);

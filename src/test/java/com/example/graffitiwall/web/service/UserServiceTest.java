@@ -4,6 +4,7 @@ import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.repository.UserRepository;
 import com.example.graffitiwall.web.converter.UserConverter;
 import com.example.graffitiwall.web.dto.IdResponseDto;
+import com.example.graffitiwall.web.dto.user.UserResponseDto;
 import com.example.graffitiwall.web.dto.user.UserSaveDto;
 import com.example.graffitiwall.web.dto.user.UserUpdateDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,5 +70,18 @@ class UserServiceTest {
         // then
         then(userConverter).should().userUpdate(any(), any());
         assertThat(updatedUserId.getId()).isEqualTo(user.getId());
+    }
+
+    @Test
+    void 유저를_조회한다() {
+        // given
+        user.setId(1L);
+        given(userRepository.findById(any())).willReturn(Optional.of(user));
+
+        // when
+        UserResponseDto userResponseDto = userService.findById(user.getId());
+
+        // then
+        then(userRepository).should().findById(any());
     }
 }

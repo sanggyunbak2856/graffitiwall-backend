@@ -1,6 +1,7 @@
 package com.example.graffitiwall.web.service;
 
 import com.example.graffitiwall.domain.entity.User;
+import com.example.graffitiwall.domain.entity.UserStatus;
 import com.example.graffitiwall.domain.repository.UserRepository;
 import com.example.graffitiwall.web.converter.UserConverter;
 import com.example.graffitiwall.web.dto.IdResponseDto;
@@ -35,6 +36,13 @@ public class UserService {
     public IdResponseDto update(Long id, UserUpdateDto userUpdateDto) {
         User user = userRepository.findById(id).get();
         userConverter.userUpdate(user, userUpdateDto);
+        return IdResponseDto.builder().id(user.getId()).build();
+    }
+
+    @Transactional
+    public IdResponseDto deactivateUser(Long userRawId) {
+        User user = userRepository.findById(userRawId).get();
+        user.setStatus(UserStatus.INACTIVE);
         return IdResponseDto.builder().id(user.getId()).build();
     }
 }

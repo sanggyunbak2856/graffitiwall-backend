@@ -31,4 +31,9 @@ public class UserController {
     public UserResponseDto findById(@PathVariable Long userRawId) {
         return userService.findById(userRawId);
     }
+
+    @DeleteMapping("/{userRawId}")
+    public IdResponseDto deactivateUser(@PathVariable Long userRawId) {
+        return userService.deactivateUser(userRawId);
+    }
 }

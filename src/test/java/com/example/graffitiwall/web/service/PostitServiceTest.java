@@ -19,10 +19,13 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static com.example.graffitiwall.factory.DummyObjectFactory.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
@@ -139,6 +142,27 @@ class PostitServiceTest {
 
         // then
         then(postitRepository).should().deleteById(any());
+    }
+    
+    @Test
+    void 포스트잇_서비스에서_보드_아이디로_포스트잇들을_조회한다() {
+        // given
+        board.setId(1L);
+        postit.setBoard(board);
+        Postit postit2 = createFakePostit();
+        Postit postit3 = createFakePostit();
+        List<Postit> postitList = Stream.of(postit, postit2, postit3).peek(i -> {
+                    i.setUser(user);
+                    i.setBoard(board);
+        }).toList();
+        given(postitRepository.findPostitByBoard_Id(any())).willReturn(postitList);
+
+        // when
+        List<PostitResponseDto> foundPostitResponseDtoList = postitService.findPostitByBoardId(board.getId());
+
+        // then
+        then(postitRepository).should().findPostitByBoard_Id(any());
+        assertThat(foundPostitResponseDtoList).hasSize(3);
     }
 
 }

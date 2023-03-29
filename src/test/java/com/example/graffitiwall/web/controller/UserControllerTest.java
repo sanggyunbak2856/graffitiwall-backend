@@ -24,8 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.example.graffitiwall.factory.DummyObjectFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -76,5 +75,17 @@ class UserControllerTest {
                 .content(json)
         ).andExpect(status().isOk())
          .andDo(print());
+    }
+
+    @Test
+    @Transactional
+    void 유저_조회_테스트() throws Exception {
+        // given
+        User user = createFakeUser();
+        User savedUser = userRepository.save(user);
+
+        // when
+        mockMvc.perform(get(url + "/" + savedUser.getId()))
+                .andDo(print());
     }
 }

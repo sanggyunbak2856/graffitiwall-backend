@@ -1,6 +1,7 @@
 package com.example.graffitiwall.web.controller;
 
 import com.example.graffitiwall.web.dto.IdResponseDto;
+import com.example.graffitiwall.web.dto.user.UserResponseDto;
 import com.example.graffitiwall.web.dto.user.UserSaveDto;
 import com.example.graffitiwall.web.dto.user.UserUpdateDto;
 import com.example.graffitiwall.web.service.UserService;
@@ -21,8 +22,13 @@ public class UserController {
         return userService.save(userSaveDto);
     }
 
-    @PatchMapping("/{userId}")
-    public IdResponseDto update(@PathVariable Long userId, @RequestBody UserUpdateDto userUpdateDto) {
-        return userService.update(userId, userUpdateDto);
+    @PatchMapping("/{userRawId}")
+    public IdResponseDto update(@PathVariable Long userRawId, @RequestBody UserUpdateDto userUpdateDto) {
+        return userService.update(userRawId, userUpdateDto);
+    }
+
+    @GetMapping("/{userRawId}")
+    public UserResponseDto findById(@PathVariable Long userRawId) {
+        return userService.findById(userRawId);
     }
 }

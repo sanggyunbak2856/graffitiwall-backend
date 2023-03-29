@@ -4,6 +4,7 @@ import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.repository.UserRepository;
 import com.example.graffitiwall.web.converter.UserConverter;
 import com.example.graffitiwall.web.dto.IdResponseDto;
+import com.example.graffitiwall.web.dto.user.UserResponseDto;
 import com.example.graffitiwall.web.dto.user.UserSaveDto;
 import com.example.graffitiwall.web.dto.user.UserUpdateDto;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,12 @@ public class UserService {
         return IdResponseDto.builder()
                 .id(savedUser.getId())
                 .build();
+    }
+
+    @Transactional
+    public UserResponseDto findById(Long userRawId) {
+        User user = userRepository.findById(userRawId).get();
+        return userConverter.entityToUserResponseDto(user);
     }
 
     @Transactional

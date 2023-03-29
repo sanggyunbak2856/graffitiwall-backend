@@ -88,4 +88,17 @@ class UserControllerTest {
         mockMvc.perform(get(url + "/" + savedUser.getId()))
                 .andDo(print());
     }
+
+    @Test
+    @Transactional
+    void 유저_비활성화_테스트() throws Exception {
+        // given
+        User user = createFakeUser();
+        User savedUser = userRepository.save(user);
+
+        // when
+        mockMvc.perform(delete(url + "/" + savedUser.getId()))
+                .andDo(print());
+
+    }
 }

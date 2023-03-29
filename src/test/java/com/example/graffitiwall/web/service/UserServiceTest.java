@@ -1,6 +1,7 @@
 package com.example.graffitiwall.web.service;
 
 import com.example.graffitiwall.domain.entity.User;
+import com.example.graffitiwall.domain.entity.UserStatus;
 import com.example.graffitiwall.domain.repository.UserRepository;
 import com.example.graffitiwall.web.converter.UserConverter;
 import com.example.graffitiwall.web.dto.IdResponseDto;
@@ -83,5 +84,19 @@ class UserServiceTest {
 
         // then
         then(userRepository).should().findById(any());
+    }
+
+    @Test
+    void 유저를_비활성화한다() {
+        // given
+        user.setId(1L);
+        given(userRepository.findById(any())).willReturn(Optional.of(user));
+
+        // when
+        userService.deactivateUser(user.getId());
+
+        // then
+        then(userRepository).should().findById(any());
+        assertThat(user.getStatus()).isEqualTo(UserStatus.INACTIVE);
     }
 }

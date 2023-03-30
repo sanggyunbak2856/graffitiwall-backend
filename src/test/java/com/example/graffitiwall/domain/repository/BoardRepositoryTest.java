@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.example.graffitiwall.factory.DummyObjectFactory.*;
@@ -131,5 +132,24 @@ public class BoardRepositoryTest {
         // then
         assertThat(updatedBoard.getTitle()).isEqualTo("bye board");
         assertThat(updatedBoard.getId()).isEqualTo(savedBoard.getId());
+    }
+
+    @Test
+    @Transactional
+    void 유저_아이디로_보드들을_조회한다() {
+        // given
+        User savedUser = userRepository.save(user);
+        board.setUser(savedUser);
+        boardRepository.save(board);
+        Board board2 = createFakeBoard();
+        board2.setUser(user);
+        boardRepository.save(board2);
+
+        // when
+        List<Board> foundBoards = boardRepository.findBoardByUser_Id(savedUser.getId());
+
+        // then
+        assertThat(foundBoards).hasSize(2);
+        assertThat(foundBoards).contains(board, board2);
     }
 }

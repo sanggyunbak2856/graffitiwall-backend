@@ -1,6 +1,8 @@
 package com.example.graffitiwall.web.controller;
 
+import com.example.graffitiwall.domain.entity.Board;
 import com.example.graffitiwall.domain.entity.User;
+import com.example.graffitiwall.domain.repository.BoardRepository;
 import com.example.graffitiwall.domain.repository.UserRepository;
 import com.example.graffitiwall.factory.DummyObjectFactory;
 import com.example.graffitiwall.web.dto.IdResponseDto;
@@ -38,6 +40,9 @@ class UserControllerTest {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    BoardRepository boardRepository;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -100,5 +105,24 @@ class UserControllerTest {
         mockMvc.perform(delete(url + "/" + savedUser.getId()))
                 .andDo(print());
 
+    }
+
+    @Test
+    @Transactional
+    void 유저_아이디로_보드_여러개_조회() throws Exception {
+        // given
+        User user = createFakeUser();
+        User savedUser = userRepository.save(user);
+        Board board1 = createFakeBoard();
+        Board board2 = createFakeBoard();
+        board1.setUser(savedUser);
+        board2.setUser(savedUser);
+        boardRepository.save(board1);
+        boardRepository.save(board2);
+
+        // when
+        mockMvc.perform(get(url + "/" + savedUser.getId() + "/boards"))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 }

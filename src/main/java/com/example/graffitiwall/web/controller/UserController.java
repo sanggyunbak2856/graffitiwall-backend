@@ -1,6 +1,7 @@
 package com.example.graffitiwall.web.controller;
 
 import com.example.graffitiwall.web.dto.IdResponseDto;
+import com.example.graffitiwall.web.dto.board.BoardResponseDto;
 import com.example.graffitiwall.web.dto.user.UserResponseDto;
 import com.example.graffitiwall.web.dto.user.UserSaveDto;
 import com.example.graffitiwall.web.dto.user.UserUpdateDto;
@@ -8,6 +9,8 @@ import com.example.graffitiwall.web.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,5 +38,10 @@ public class UserController {
     @DeleteMapping("/{userRawId}")
     public IdResponseDto deactivateUser(@PathVariable Long userRawId) {
         return userService.deactivateUser(userRawId);
+    }
+
+    @GetMapping("/{userRawId}/boards")
+    public List<BoardResponseDto> findBoardsByUserId(@PathVariable Long userRawId) {
+        return userService.findBoardByUserId(userRawId);
     }
 }

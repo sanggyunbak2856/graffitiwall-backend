@@ -40,7 +40,7 @@ public class UserController {
         return userService.deactivateUser(userRawId);
     }
 
-    @GetMapping("/{userRawId}/postits")
+    @GetMapping("/{userRawId}/boards")
     public List<BoardResponseDto> findBoardsByUserId(@PathVariable Long userRawId) {
         return userService.findBoardByUserId(userRawId);
     }

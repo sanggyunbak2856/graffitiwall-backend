@@ -121,7 +121,7 @@ class UserControllerTest {
         boardRepository.save(board2);
 
         // when
-        mockMvc.perform(get(url + "/" + savedUser.getId() + "/postits"))
+        mockMvc.perform(get(url + "/" + savedUser.getId() + "/boards"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }

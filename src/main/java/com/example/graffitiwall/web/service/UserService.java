@@ -1,10 +1,14 @@
 package com.example.graffitiwall.web.service;
 
+import com.example.graffitiwall.domain.entity.Board;
 import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.entity.UserStatus;
+import com.example.graffitiwall.domain.repository.BoardRepository;
 import com.example.graffitiwall.domain.repository.UserRepository;
+import com.example.graffitiwall.web.converter.BoardConverter;
 import com.example.graffitiwall.web.converter.UserConverter;
 import com.example.graffitiwall.web.dto.IdResponseDto;
+import com.example.graffitiwall.web.dto.board.BoardResponseDto;
 import com.example.graffitiwall.web.dto.user.UserResponseDto;
 import com.example.graffitiwall.web.dto.user.UserSaveDto;
 import com.example.graffitiwall.web.dto.user.UserUpdateDto;
@@ -12,11 +16,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+
+    private final BoardRepository boardRepository;
     private final UserConverter userConverter;
+    private final BoardConverter boardConverter;
 
     @Transactional
     public IdResponseDto save(UserSaveDto userSaveDto) {
@@ -44,5 +53,11 @@ public class UserService {
         User user = userRepository.findById(userRawId).get();
         user.setStatus(UserStatus.INACTIVE);
         return IdResponseDto.builder().id(user.getId()).build();
+    }
+
+    @Transactional
+    public List<BoardResponseDto> findBoardByUserId(Long userId) {
+        return boardRepository.findBoardByUser_Id(userId)
+                .stream().map(boardConverter::entityToBoardResponseDto).toList();
     }
 }

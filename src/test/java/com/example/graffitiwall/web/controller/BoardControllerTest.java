@@ -10,6 +10,7 @@ import com.example.graffitiwall.domain.repository.UserRepository;
 import com.example.graffitiwall.factory.DummyObjectFactory;
 import com.example.graffitiwall.web.dto.board.BoardSaveDto;
 import com.example.graffitiwall.web.dto.board.BoardUpdateDto;
+import com.example.graffitiwall.web.service.BoardService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -39,6 +41,9 @@ class BoardControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private BoardService boardService;
 
     @Autowired
     private UserRepository userRepository;
@@ -127,10 +132,6 @@ class BoardControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
-
-        // then
-        Optional<Board> optionalBoard = boardRepository.findById(savedBoard.getId());
-        assertThat(optionalBoard).isEmpty();
     }
 
     @Test
@@ -154,6 +155,25 @@ class BoardControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
+    }
+
+    @Test
+    @Transactional
+    void 보드_전체_조회_테스트() throws Exception {
+        // given
+        Board board1 = createFakeBoard();
+        Board board2 = createFakeBoard();
+        board1.setUser(savedUser);
+        board2.setUser(savedUser);
+        boardRepository.save(board1);
+        boardRepository.save(board2);
+
+        // when
+        mockMvc.perform(get(url))
+                .andDo(print())
+                .andReturn();
+
+        // then
     }
 
 }

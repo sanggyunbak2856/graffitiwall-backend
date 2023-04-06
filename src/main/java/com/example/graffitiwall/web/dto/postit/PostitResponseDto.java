@@ -20,6 +20,9 @@ public class PostitResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private int angle;
+    private int sizeX;
+    private int sizeY;
+    private String font;
     private Long boardId;
     private Long userId;
     private String writer;

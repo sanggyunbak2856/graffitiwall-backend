@@ -12,4 +12,7 @@ public class PostitUpdateDto {
     private int positionX;
     private int positionY;
     private int angle;
+    private int sizeX;
+    private int sizeY;
+    private String font;
 }

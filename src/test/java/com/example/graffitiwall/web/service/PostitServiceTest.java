@@ -133,6 +133,9 @@ class PostitServiceTest {
         assertThat(updatedPostit.getContents()).isEqualTo(postitUpdateDto.getContents());
         assertThat(updatedPostit.getAngle()).isEqualTo(postitUpdateDto.getAngle());
         assertThat(updatedPostit.getTitle()).isEqualTo(postitUpdateDto.getTitle());
+        assertThat(updatedPostit.getSizeX()).isEqualTo(postitUpdateDto.getSizeX());
+        assertThat(updatedPostit.getSizeY()).isEqualTo(postitUpdateDto.getSizeY());
+        assertThat(updatedPostit.getFont()).isEqualTo(postitUpdateDto.getFont());
     }
 
     @Test

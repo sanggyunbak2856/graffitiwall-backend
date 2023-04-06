@@ -42,6 +42,15 @@ public class Postit extends BaseTime{
     @ColumnDefault("0")
     private int views;
 
+    @Column(name = "sizeX", nullable = false)
+    private int sizeX;
+
+    @Column(name = "sizeY", nullable = false)
+    private int sizeY;
+
+    @Column(name = "font", length = 255, nullable = false)
+    private String font;
+
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
@@ -52,13 +61,16 @@ public class Postit extends BaseTime{
 
     @Builder
     public Postit(String title, String color, int positionX, int positionY, String contents,
-                  int angle, Board board, User user) {
+                  int angle,int sizeX, int sizeY, String font, Board board, User user) {
         this.title = title;
         this.color = color;
         this.positionX = positionX;
         this.positionY = positionY;
         this.contents = contents;
         this.angle = angle;
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        this.font = font;
         this.board = board;
         this.user = user;
     }

@@ -22,10 +22,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static com.example.graffitiwall.factory.DummyObjectFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
@@ -49,6 +51,23 @@ class BoardServiceTest {
     void beforeEach() {
         user = createFakeUser();
         user.setId(1L);
+    }
+
+    @Test
+    void 모든_보드_리스트를_가져온다() {
+        // given
+        Board board1 = createFakeBoard();
+        Board board2 = createFakeBoard();
+        board1.setUser(user);
+        board2.setUser(user);
+        given(boardRepository.findAll()).willReturn(List.of(board1, board2));
+
+        // when
+        List<BoardResponseDto> boards = boardService.findAllBoards();
+
+
+        // then
+        assertThat(boards).hasSize(2);
     }
 
     @Test

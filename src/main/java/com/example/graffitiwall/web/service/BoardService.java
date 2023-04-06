@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -21,6 +23,12 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final BoardConverter boardConverter;
+
+    @Transactional
+    public List<BoardResponseDto> findAllBoards() {
+        return boardRepository.findAll()
+                .stream().map(boardConverter::entityToBoardResponseDto).toList();
+    }
 
     @Transactional
     public Long save(BoardSaveDto boardSaveDto) {

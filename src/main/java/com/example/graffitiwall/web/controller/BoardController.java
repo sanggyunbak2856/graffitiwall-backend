@@ -19,6 +19,11 @@ public class BoardController {
     private final BoardService boardService;
     private final PostitService postitService;
 
+    @GetMapping
+    public List<BoardResponseDto> findAllBoards() {
+        return boardService.findAllBoards();
+    }
+
     @PostMapping
     public Long save(@RequestBody BoardSaveDto boardSaveDto) {
         Long savedId = boardService.save(boardSaveDto);

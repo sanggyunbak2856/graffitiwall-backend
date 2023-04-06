@@ -23,6 +23,9 @@ public class PostitConverter {
                 .title(postit.getTitle())
                 .views(postit.getViews())
                 .writer(postit.getUser().getUserId())
+                .font(postit.getFont())
+                .sizeX(postit.getSizeX())
+                .sizeY(postit.getSizeY())
                 .build();
     }
 
@@ -34,6 +37,9 @@ public class PostitConverter {
                 .positionX(postitSaveDto.getPositionX())
                 .positionY(postitSaveDto.getPositionY())
                 .title(postitSaveDto.getTitle())
+                .font(postitSaveDto.getFont())
+                .sizeX(postitSaveDto.getSizeX())
+                .sizeY(postitSaveDto.getSizeY())
                 .build();
     }
 
@@ -44,5 +50,8 @@ public class PostitConverter {
         postit.setContents(postitUpdateDto.getContents());
         postit.setPositionX(postitUpdateDto.getPositionX());
         postit.setPositionY(postitUpdateDto.getPositionY());
+        postit.setSizeX(postitUpdateDto.getSizeX());
+        postit.setSizeY(postitUpdateDto.getSizeY());
+        postit.setFont(postitUpdateDto.getFont());
     }
 }

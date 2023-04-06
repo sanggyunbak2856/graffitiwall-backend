@@ -57,6 +57,8 @@ class PostitConverterTest {
         assertThat(postitResponseDto.getBoardId()).isEqualTo(postit.getBoard().getId());
         assertThat(postitResponseDto.getViews()).isEqualTo(postit.getViews());
         assertThat(postitResponseDto.getUserId()).isEqualTo(postit.getUser().getId());
+        assertThat(postitResponseDto.getSizeX()).isEqualTo(postit.getSizeX());
+        assertThat(postitResponseDto.getSizeY()).isEqualTo(postit.getSizeY());
     }
 
     @Test
@@ -75,5 +77,8 @@ class PostitConverterTest {
         assertThat(postit.getColor()).isEqualTo(postitUpdateDto.getColor());
         assertThat(postit.getPositionX()).isEqualTo(postitUpdateDto.getPositionX());
         assertThat(postit.getPositionY()).isEqualTo(postitUpdateDto.getPositionY());
+        assertThat(postit.getSizeX()).isEqualTo(postitUpdateDto.getSizeX());
+        assertThat(postit.getSizeY()).isEqualTo(postitUpdateDto.getSizeY());
+        assertThat(postit.getFont()).isEqualTo(postitUpdateDto.getFont());
     }
 }

@@ -82,6 +82,9 @@ public class DummyObjectFactory {
                 .positionX(faker.random().nextInt(0, 500))
                 .color(faker.color().name())
                 .angle(faker.random().nextInt(0, 360))
+                .font(faker.lorem().characters(10))
+                .sizeX(faker.random().nextInt(0, 100))
+                .sizeY(faker.random().nextInt(0, 100))
                 .build();
     }
 
@@ -95,6 +98,9 @@ public class DummyObjectFactory {
                 .angle(faker.random().nextInt(0, 360))
                 .boardId(boardId)
                 .userId(userId)
+                .font(faker.lorem().characters(10))
+                .sizeX(faker.random().nextInt(0, 100))
+                .sizeY(faker.random().nextInt(0, 100))
                 .build();
     }
 
@@ -106,6 +112,9 @@ public class DummyObjectFactory {
                 .positionX(faker.random().nextInt(0, 500))
                 .color(faker.color().name())
                 .angle(faker.random().nextInt(0, 360))
+                .font(faker.lorem().characters(10))
+                .sizeX(faker.random().nextInt(0, 100))
+                .sizeY(faker.random().nextInt(0, 100))
                 .build();
     }
 

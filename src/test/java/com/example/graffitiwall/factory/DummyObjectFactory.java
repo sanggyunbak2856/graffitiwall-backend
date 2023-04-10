@@ -25,6 +25,7 @@ public class DummyObjectFactory {
                 .status(UserStatus.ACTIVE)
                 .introduce(faker.lorem().characters(CONTENTS_LENGTH))
                 .imageUrl(faker.internet().url())
+                .nickname(faker.name().username())
                 .build();
     }
 
@@ -34,6 +35,7 @@ public class DummyObjectFactory {
                 .userId(faker.name().username())
                 .email(faker.internet().emailAddress())
                 .introduce(faker.lorem().characters())
+                .nickname(faker.name().username())
                 .build();
     }
 
@@ -43,6 +45,7 @@ public class DummyObjectFactory {
                 .userId(faker.name().username())
                 .email(faker.internet().emailAddress())
                 .introduce(faker.lorem().characters())
+                .nickname(faker.name().username())
                 .build();
     }
 

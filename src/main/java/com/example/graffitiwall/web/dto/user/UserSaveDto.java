@@ -11,4 +11,5 @@ public class UserSaveDto {
     private String password;
     private String email;
     private String introduce;
+    private String nickname;
 }

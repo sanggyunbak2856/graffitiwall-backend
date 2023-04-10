@@ -16,6 +16,7 @@ public class UserConverter {
                 .email(userSaveDto.getEmail())
                 .introduce(userSaveDto.getIntroduce())
                 .status(UserStatus.ACTIVE)
+                .nickname(userSaveDto.getNickname())
                 .build();
     }
 
@@ -24,6 +25,7 @@ public class UserConverter {
         user.setEmail(userUpdateDto.getEmail());
         user.setIntroduce(userUpdateDto.getIntroduce());
         user.setPassword(userUpdateDto.getPassword());
+        user.setNickname(userUpdateDto.getNickname());
     }
 
     public UserResponseDto entityToUserResponseDto(User user) {
@@ -35,6 +37,7 @@ public class UserConverter {
                 .introduce(user.getIntroduce())
                 .password(user.getPassword())
                 .userId(user.getUserId())
+                .nickname(user.getNickname())
                 .build();
     }
 }

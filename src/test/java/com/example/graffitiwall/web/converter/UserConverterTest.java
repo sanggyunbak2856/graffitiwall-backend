@@ -30,6 +30,7 @@ class UserConverterTest {
         assertThat(convertedUser.getUserId()).isEqualTo(userSaveDto.getUserId());
         assertThat(convertedUser.getEmail()).isEqualTo(userSaveDto.getEmail());
         assertThat(convertedUser.getPassword()).isEqualTo(userSaveDto.getPassword());
+        assertThat(convertedUser.getNickname()).isEqualTo(userSaveDto.getNickname());
     }
 
     @Test
@@ -46,6 +47,7 @@ class UserConverterTest {
         assertThat(user.getPassword()).isEqualTo(userUpdateDto.getPassword());
         assertThat(user.getEmail()).isEqualTo(userUpdateDto.getEmail());
         assertThat(user.getIntroduce()).isEqualTo(userUpdateDto.getIntroduce());
+        assertThat(user.getNickname()).isEqualTo(userUpdateDto.getNickname());
     }
 
     @Test
@@ -64,6 +66,6 @@ class UserConverterTest {
         assertThat(userResponseDto.getEmail()).isEqualTo(user.getEmail());
         assertThat(userResponseDto.getIntroduce()).isEqualTo(user.getIntroduce());
         assertThat(userResponseDto.getPassword()).isEqualTo(user.getPassword());
-
+        assertThat(userResponseDto.getNickname()).isEqualTo(user.getNickname());
     }
 }

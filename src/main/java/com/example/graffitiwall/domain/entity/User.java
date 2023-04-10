@@ -31,6 +31,9 @@ public class User {
     @Column(name = "image_url", length = 500, nullable = true)
     private String imageUrl;
 
+    @Column(name = "nickname", length = 255, nullable = false)
+    private String nickname;
+
     @Lob
     @Column(name = "introduce", length = 2048, nullable = true)
     private String introduce;
@@ -46,12 +49,14 @@ public class User {
     private List<Postit> postits = new ArrayList<>();
 
     @Builder
-    public User(String userId, String password, String email, String imageUrl, String introduce, UserStatus status) {
+    public User(String userId, String password, String email, String imageUrl,
+                String introduce, UserStatus status, String nickname) {
         this.userId = userId;
         this.password = password;
         this.email = email;
         this.imageUrl = imageUrl;
         this.introduce = introduce;
         this.status = status;
+        this.nickname = nickname;
     }
 }

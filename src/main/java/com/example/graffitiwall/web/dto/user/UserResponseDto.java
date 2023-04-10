@@ -13,5 +13,6 @@ public class UserResponseDto {
     private String email;
     private String imageUrl;
     private String introduce;
+    private String nickname;
     private UserStatus status;
 }

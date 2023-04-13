@@ -17,3 +17,14 @@ spring:
     properties:
       hibernate:
         format_sql: true
+cloud:
+  aws:
+    credentials:
+      access-key:
+      secret-key:
+    s3:
+      bucket: graffiti-s3-bucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

@@ -1,6 +1,5 @@
 package com.example.graffitiwall.web.service;
 
-import com.example.graffitiwall.domain.entity.Board;
 import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.entity.UserStatus;
 import com.example.graffitiwall.domain.repository.BoardRepository;
@@ -12,6 +11,7 @@ import com.example.graffitiwall.web.converter.UserConverter;
 import com.example.graffitiwall.web.dto.IdResponseDto;
 import com.example.graffitiwall.web.dto.board.BoardResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
+import com.example.graffitiwall.web.dto.user.UserNicknameExistResponseDto;
 import com.example.graffitiwall.web.dto.user.UserResponseDto;
 import com.example.graffitiwall.web.dto.user.UserSaveDto;
 import com.example.graffitiwall.web.dto.user.UserUpdateDto;
@@ -69,5 +69,18 @@ public class UserService {
     public List<PostitResponseDto> findPostitByUserId(Long userRawId) {
         return postitRepository.findPostitByUser_Id(userRawId)
                 .stream().map(postitConverter::entityToPostitResponseDto).toList();
+    }
+
+    @Transactional
+    public UserNicknameExistResponseDto isUserNicknameExist(String nickname) {
+        User user = userRepository.findByNickname(nickname);
+        if(user == null) {
+            return UserNicknameExistResponseDto.builder()
+                    .nicknameExist(false)
+                    .build();
+        }
+        return UserNicknameExistResponseDto.builder()
+                .nicknameExist(true)
+                .build();
     }
 }

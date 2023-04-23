@@ -1,14 +1,18 @@
 package com.example.graffitiwall.web.service;
 
 import com.example.graffitiwall.domain.entity.Board;
+import com.example.graffitiwall.domain.entity.Postit;
 import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.entity.UserStatus;
 import com.example.graffitiwall.domain.repository.BoardRepository;
+import com.example.graffitiwall.domain.repository.PostitRepository;
 import com.example.graffitiwall.domain.repository.UserRepository;
 import com.example.graffitiwall.web.converter.BoardConverter;
+import com.example.graffitiwall.web.converter.PostitConverter;
 import com.example.graffitiwall.web.converter.UserConverter;
 import com.example.graffitiwall.web.dto.IdResponseDto;
 import com.example.graffitiwall.web.dto.board.BoardResponseDto;
+import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.dto.user.UserResponseDto;
 import com.example.graffitiwall.web.dto.user.UserSaveDto;
 import com.example.graffitiwall.web.dto.user.UserUpdateDto;
@@ -38,11 +42,17 @@ class UserServiceTest {
     @Mock
     BoardRepository boardRepository;
 
+    @Mock
+    PostitRepository postitRepository;
+
     @Spy
     UserConverter userConverter;
 
     @Spy
     BoardConverter boardConverter;
+
+    @Spy
+    PostitConverter postitConverter;
 
     @InjectMocks
     UserService userService;
@@ -126,5 +136,26 @@ class UserServiceTest {
 
         // then
         assertThat(responseDtoList).hasSize(2);
+    }
+
+    @Test
+    void 유저_아이디로_포스트잇들을_조회한다() {
+        // given
+        user.setId(1L);
+        Board board = createFakeBoard();
+        board.setUser(user);
+        Postit postit1 = createFakePostit();
+        Postit postit2 = createFakePostit();
+        postit1.setBoard(board);
+        postit1.setUser(user);
+        postit2.setBoard(board);
+        postit2.setUser(user);
+        given(postitRepository.findPostitByUser_Id(any())).willReturn(List.of(postit1, postit2));
+
+        // when
+        List<PostitResponseDto> postitByUserId = userService.findPostitByUserId(1L);
+
+        // then
+        assertThat(postitByUserId).hasSize(2);
     }
 }

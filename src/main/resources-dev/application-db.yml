@@ -1,0 +1,19 @@
+--- # local
+spring:
+  config:
+    activate:
+      on-profile: "db-dev"
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db-mysql:3306/test?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
+    username: test
+    password: 1234
+server:
+  port: 8085

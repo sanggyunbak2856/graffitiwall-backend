@@ -13,6 +13,7 @@ import com.example.graffitiwall.web.converter.UserConverter;
 import com.example.graffitiwall.web.dto.IdResponseDto;
 import com.example.graffitiwall.web.dto.board.BoardResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
+import com.example.graffitiwall.web.dto.user.UserNicknameExistResponseDto;
 import com.example.graffitiwall.web.dto.user.UserResponseDto;
 import com.example.graffitiwall.web.dto.user.UserSaveDto;
 import com.example.graffitiwall.web.dto.user.UserUpdateDto;
@@ -157,5 +158,31 @@ class UserServiceTest {
 
         // then
         assertThat(postitByUserId).hasSize(2);
+    }
+
+    @Test
+    void 유저_중복조회_유저가_존재하는_경우() {
+        // given
+        User user = createFakeUser();
+        given(userRepository.findByNickname(any())).willReturn(user);
+
+        // when
+        UserNicknameExistResponseDto userNicknameExist = userService.isUserNicknameExist(user.getNickname());
+
+        // then
+        assertThat(userNicknameExist.isNicknameExist()).isEqualTo(true);
+    }
+
+    @Test
+    void 유저_중복조회_유저가_존재하지_않는_경우() {
+        // given
+        User user = createFakeUser();
+        given(userRepository.findByNickname(any())).willReturn(null);
+
+        // when
+        UserNicknameExistResponseDto userNicknameExist = userService.isUserNicknameExist(user.getNickname());
+
+        // then
+        assertThat(userNicknameExist.isNicknameExist()).isEqualTo(false);
     }
 }

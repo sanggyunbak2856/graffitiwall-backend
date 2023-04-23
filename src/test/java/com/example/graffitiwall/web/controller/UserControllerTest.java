@@ -25,6 +25,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+
 import static com.example.graffitiwall.factory.DummyObjectFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -153,5 +155,38 @@ class UserControllerTest {
         mockMvc.perform(get(url + "/" + user.getId() + "/postit"))
                 .andExpect(status().isOk())
                 .andDo(print());
+    }
+
+    @Test
+    @Transactional
+    void 유저_중복조회_성공() throws Exception {
+        // given
+        User user = createFakeUser();
+        userRepository.save(user);
+
+        // when
+        MvcResult mvcResult = mockMvc.perform(get(url + "/" + user.getNickname() + "/duplicate"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        // then
+
+    }
+
+    @Test
+    @Transactional
+    void 유저_중복조회_실패() throws Exception {
+        // given
+        User user = createFakeUser();
+
+        // when
+        MvcResult mvcResult = mockMvc.perform(get(url + "/" + user.getNickname() + "/duplicate"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        // then
+
     }
 }

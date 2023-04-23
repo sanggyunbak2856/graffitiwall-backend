@@ -91,4 +91,18 @@ public class UserRepositoryTest {
         assertThat(foundUser.getPostits().get(0).getId()).isNotNull();
     }
 
+    @Test
+    @Transactional
+    void 유저_닉네임_중복조회() {
+        // given
+        User user = createFakeUser();
+        User save = userRepository.save(user);
+
+        // when
+        User foundUser = userRepository.findByNickname(save.getNickname());
+
+        // then
+        assertThat(user).usingRecursiveComparison().isEqualTo(foundUser);
+    }
+
 }

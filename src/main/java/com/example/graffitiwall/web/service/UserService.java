@@ -4,11 +4,14 @@ import com.example.graffitiwall.domain.entity.Board;
 import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.entity.UserStatus;
 import com.example.graffitiwall.domain.repository.BoardRepository;
+import com.example.graffitiwall.domain.repository.PostitRepository;
 import com.example.graffitiwall.domain.repository.UserRepository;
 import com.example.graffitiwall.web.converter.BoardConverter;
+import com.example.graffitiwall.web.converter.PostitConverter;
 import com.example.graffitiwall.web.converter.UserConverter;
 import com.example.graffitiwall.web.dto.IdResponseDto;
 import com.example.graffitiwall.web.dto.board.BoardResponseDto;
+import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.dto.user.UserResponseDto;
 import com.example.graffitiwall.web.dto.user.UserSaveDto;
 import com.example.graffitiwall.web.dto.user.UserUpdateDto;
@@ -22,10 +25,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-
     private final BoardRepository boardRepository;
+    private final PostitRepository postitRepository;
     private final UserConverter userConverter;
     private final BoardConverter boardConverter;
+    private final PostitConverter postitConverter;
 
     @Transactional
     public IdResponseDto save(UserSaveDto userSaveDto) {
@@ -59,5 +63,11 @@ public class UserService {
     public List<BoardResponseDto> findBoardByUserId(Long userId) {
         return boardRepository.findBoardByUser_Id(userId)
                 .stream().map(boardConverter::entityToBoardResponseDto).toList();
+    }
+
+    @Transactional
+    public List<PostitResponseDto> findPostitByUserId(Long userRawId) {
+        return postitRepository.findPostitByUser_Id(userRawId)
+                .stream().map(postitConverter::entityToPostitResponseDto).toList();
     }
 }

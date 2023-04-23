@@ -1,8 +1,10 @@
 package com.example.graffitiwall.web.controller;
 
 import com.example.graffitiwall.domain.entity.Board;
+import com.example.graffitiwall.domain.entity.Postit;
 import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.repository.BoardRepository;
+import com.example.graffitiwall.domain.repository.PostitRepository;
 import com.example.graffitiwall.domain.repository.UserRepository;
 import com.example.graffitiwall.factory.DummyObjectFactory;
 import com.example.graffitiwall.web.dto.IdResponseDto;
@@ -43,6 +45,9 @@ class UserControllerTest {
 
     @Autowired
     BoardRepository boardRepository;
+
+    @Autowired
+    PostitRepository postitRepository;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -122,6 +127,30 @@ class UserControllerTest {
 
         // when
         mockMvc.perform(get(url + "/" + savedUser.getId() + "/boards"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @Transactional
+    void 유저_아이디로_포스트잇_조회() throws Exception {
+        // given
+        User user = createFakeUser();
+        Board board = createFakeBoard();
+        board.setUser(user);
+        Postit postit1 = createFakePostit();
+        Postit postit2 = createFakePostit();
+        postit1.setUser(user);
+        postit2.setUser(user);
+        postit1.setBoard(board);
+        postit2.setBoard(board);
+        userRepository.save(user);
+        boardRepository.save(board);
+        postitRepository.save(postit1);
+        postitRepository.save(postit2);
+
+        // when
+        mockMvc.perform(get(url + "/" + user.getId() + "/postit"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }

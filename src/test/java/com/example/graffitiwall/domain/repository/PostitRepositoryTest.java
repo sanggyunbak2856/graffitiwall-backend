@@ -2,6 +2,7 @@ package com.example.graffitiwall.domain.repository;
 
 import com.example.graffitiwall.domain.entity.Board;
 import com.example.graffitiwall.domain.entity.Postit;
+import com.example.graffitiwall.domain.entity.User;
 import com.example.graffitiwall.domain.repository.PostitRepository;
 import com.example.graffitiwall.factory.DummyObjectFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -16,14 +17,15 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.graffitiwall.factory.DummyObjectFactory.createFakeBoard;
-import static com.example.graffitiwall.factory.DummyObjectFactory.createFakePostit;
+import static com.example.graffitiwall.factory.DummyObjectFactory.*;
 import static org.assertj.core.api.Assertions.*;
 
 @Slf4j
 @SpringBootTest
 class PostitRepositoryTest {
 
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private PostitRepository postitRepository;
     @Autowired
@@ -136,5 +138,26 @@ class PostitRepositoryTest {
         assertThat(updatedPostit.getId()).isEqualTo(savedPostit.getId());
         assertThat(updatedPostit.getColor()).isEqualTo("blue");
         assertThat(updatedPostit.getTitle()).isEqualTo("bye");
+    }
+
+    @Test
+    @Transactional
+    void 유저_아이디로_포스트잇을_조회한다() {
+        // given
+        User user = userRepository.save(createFakeUser());
+        Board tempBoard = createFakeBoard();
+        tempBoard.setUser(user);
+        Board board = boardRepository.save(tempBoard);
+        Postit postit = createFakePostit();
+        postit.setUser(user);
+        postit.setBoard(board);
+        postitRepository.save(postit);
+
+        // when
+        List<Postit> postitByUser_id = postitRepository.findPostitByUser_Id(user.getId());
+
+        // then
+        assertThat(postitByUser_id).hasSize(1);
+        assertThat(postitByUser_id.get(0).getUser().getId()).isEqualTo(user.getId());
     }
 }

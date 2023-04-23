@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PostitRepository extends JpaRepository<Postit, Long> {
     List<Postit> findPostitByBoard_Id(Long boardId);
+    List<Postit> findPostitByUser_Id(Long userRawId);
 }

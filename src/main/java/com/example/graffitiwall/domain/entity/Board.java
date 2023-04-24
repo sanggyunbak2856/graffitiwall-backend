@@ -2,6 +2,7 @@ package com.example.graffitiwall.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,6 +25,10 @@ public class Board extends BaseTime{
 
     @Column(name = "is_private", nullable = false)
     private boolean isPrivate;
+
+    @Column(name = "views")
+    @ColumnDefault("0")
+    private int views;
 
     @Column(name = "password", length = 30, nullable = true)
     private String password;

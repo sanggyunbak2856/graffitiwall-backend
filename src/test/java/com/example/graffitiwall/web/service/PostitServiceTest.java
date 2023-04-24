@@ -168,4 +168,21 @@ class PostitServiceTest {
         assertThat(foundPostitResponseDtoList).hasSize(3);
     }
 
+    @Test
+    void 포스트잇을_조회하면_조회수가_증가한다() {
+        // given
+        user.setId(1L);
+        board.setUser(user);
+        board.setId(1L);
+        postit.setBoard(board);
+        postit.setUser(user);
+        given(postitRepository.findById(any())).willReturn(Optional.of(postit));
+
+        // when
+        PostitResponseDto postitResponseDto = postitService.findById(1L);
+
+        // then
+        assertThat(postitResponseDto.getViews()).isEqualTo(1);
+    }
+
 }

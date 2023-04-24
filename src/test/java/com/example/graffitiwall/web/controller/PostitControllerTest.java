@@ -138,4 +138,26 @@ class PostitControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @Test
+    @Transactional
+    void 포스트잇_조회시_조회수_증가() throws Exception {
+        // given
+        User savedUser = userRepository.save(user);
+        board.setUser(user);
+        Board savedBoard = boardRepository.save(board);
+        Postit postit = createFakePostit();
+        postit.setUser(user);
+        postit.setBoard(board);
+        Postit save = postitRepository.save(postit);
+
+        // when
+        mockMvc.perform(get(url + "/" + postit.getId()))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+        mockMvc.perform(get(url + "/" + postit.getId()))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }

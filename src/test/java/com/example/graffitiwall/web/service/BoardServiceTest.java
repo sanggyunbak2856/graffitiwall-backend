@@ -153,4 +153,39 @@ class BoardServiceTest {
         assertThat(boardResponseDtoList).hasSize(20);
         verify(boardConverter, times(20)).entityToBoardResponseDto(any());
     }
+
+    @Test
+    void 보드_조회시_조회수가_증가한다() {
+        // given
+        Board board = createFakeBoard();
+        board.setUser(user);
+        given(boardRepository.findById(any())).willReturn(Optional.of(board));
+
+        // when
+        boardService.findById(any());
+
+        // then
+        assertThat(board.getViews()).isEqualTo(1);
+
+    }
+
+    @Test
+    void 조회수가_높은_보드를_가져온다() {
+        // given
+        List<Board> boards = new LinkedList<>();
+        for(int i = 0; i < 20; i++) {
+            Board board = createFakeBoard();
+            board.setUser(user);
+            boards.add(board);
+
+        }
+
+        given(boardRepository.findPopularBoards()).willReturn(boards);
+
+        // when
+        List<BoardResponseDto> popularBoards = boardService.findPopularBoards();
+
+        // then
+        assertThat(popularBoards).hasSize(20);
+    }
 }

@@ -57,4 +57,10 @@ public class BoardService {
         boardRepository.deleteById(id);
         return IdResponseDto.builder().id(id).build();
     }
+
+    @Transactional
+    public List<BoardResponseDto> findBoardsRandom() {
+        return boardRepository.findBoardRandom()
+                .stream().map(boardConverter::entityToBoardResponseDto).toList();
+    }
 }

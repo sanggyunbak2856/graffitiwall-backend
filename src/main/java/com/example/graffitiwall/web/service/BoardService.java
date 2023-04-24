@@ -42,6 +42,7 @@ public class BoardService {
     @Transactional
     public BoardResponseDto findById(Long id) {
         Board board = boardRepository.findById(id).get();
+        board.setViews(board.getViews() + 1);
         return boardConverter.entityToBoardResponseDto(board);
     }
 
@@ -61,6 +62,12 @@ public class BoardService {
     @Transactional
     public List<BoardResponseDto> findBoardsRandom() {
         return boardRepository.findBoardRandom()
+                .stream().map(boardConverter::entityToBoardResponseDto).toList();
+    }
+
+    @Transactional
+    public List<BoardResponseDto> findPopularBoards() {
+        return boardRepository.findPopularBoards()
                 .stream().map(boardConverter::entityToBoardResponseDto).toList();
     }
 }

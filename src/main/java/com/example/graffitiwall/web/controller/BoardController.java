@@ -8,10 +8,12 @@ import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
 import com.example.graffitiwall.web.service.BoardService;
 import com.example.graffitiwall.web.service.PostitService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/boards")
@@ -27,6 +29,7 @@ public class BoardController {
     @PostMapping
     public Long save(@RequestBody BoardSaveDto boardSaveDto) {
         Long savedId = boardService.save(boardSaveDto);
+        log.info("called");
         return savedId;
     }
 
@@ -48,5 +51,10 @@ public class BoardController {
     @DeleteMapping("/{boardId}")
     public IdResponseDto deleteById(@PathVariable Long boardId) {
         return boardService.deleteById(boardId);
+    }
+
+    @GetMapping("/random")
+    public List<BoardResponseDto> findRandom() {
+        return boardService.findBoardsRandom();
     }
 }

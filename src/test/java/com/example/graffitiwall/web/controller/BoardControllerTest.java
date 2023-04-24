@@ -176,4 +176,25 @@ class BoardControllerTest {
         // then
     }
 
+    @Test
+    @Transactional
+    void 보드_랜덤_조회_테스트() throws Exception {
+        // given
+        User user = createFakeUser();
+        userRepository.save(user);
+        for(int i = 0; i < 50; i++) {
+            Board board = createFakeBoard();
+            board.setUser(user);
+            boardRepository.save(board);
+        }
+
+        // when
+        mockMvc.perform(get(url + "/random"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        // then
+    }
+
 }

@@ -152,4 +152,22 @@ public class BoardRepositoryTest {
         assertThat(foundBoards).hasSize(2);
         assertThat(foundBoards).contains(board, board2);
     }
+
+    @Test
+    @Transactional
+    void 보드를_랜덤으로_가져온다() {
+        // given
+        User savedUser = userRepository.save(user);
+        for(int i = 0; i < 100; i++) {
+            Board board = createFakeBoard();
+            board.setUser(savedUser);
+            boardRepository.save(board);
+        }
+
+        // when
+        List<Board> boardRandom1 = boardRepository.findBoardRandom();
+
+        // then
+        assertThat(boardRandom1).hasSize(20);
+    }
 }

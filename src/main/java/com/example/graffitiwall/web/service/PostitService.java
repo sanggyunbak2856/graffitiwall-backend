@@ -31,7 +31,14 @@ public class PostitService {
     @Transactional
     public PostitResponseDto findById(Long id) {
         Optional<Postit> optionalPostit = postitRepository.findById(id);
-        return optionalPostit.isEmpty() ? null : postitConverter.entityToPostitResponseDto(optionalPostit.get());
+        if(optionalPostit.isEmpty()) {
+            return null;
+        }
+        else {
+            Postit postit = optionalPostit.get();
+            postit.setViews(postit.getViews() + 1);
+            return postitConverter.entityToPostitResponseDto(postit);
+        }
     }
 
     @Transactional

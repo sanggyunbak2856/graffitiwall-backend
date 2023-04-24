@@ -170,4 +170,22 @@ public class BoardRepositoryTest {
         // then
         assertThat(boardRandom1).hasSize(20);
     }
+
+    @Test
+    @Transactional
+    void 조회수가_높은_보드를_가져온다() {
+        userRepository.save(user);
+        // given
+        for(int i = 0; i < 30; i++) {
+            Board board = createFakeBoard();
+            board.setUser(user);
+            boardRepository.save(board);
+        }
+
+        // when
+        List<Board> popularBoards = boardRepository.findPopularBoards();
+
+        // then
+        assertThat(popularBoards).hasSize(20);
+    }
 }

@@ -10,4 +10,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     List<Board> findBoardByUser_Id(Long id);
     @Query(value = "SELECT * FROM board ORDER BY RAND() limit 20", nativeQuery = true)
     List<Board> findBoardRandom();
+    @Query(value = "SELECT * FROM board ORDER BY views DESC limit 20", nativeQuery = true)
+    List<Board> findPopularBoards();
 }

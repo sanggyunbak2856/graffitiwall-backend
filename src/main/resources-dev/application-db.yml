@@ -1,8 +1,8 @@
---- # local
+--- # dev
 spring:
   config:
     activate:
-      on-profile: "db-local"
+      on-profile: "db-dev"
   jpa:
     hibernate:
       ddl-auto: update

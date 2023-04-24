@@ -22,6 +22,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -131,5 +133,24 @@ class BoardServiceTest {
 
         // then
         then(boardRepository).should().deleteById(any());
+    }
+
+    @Test
+    void 보드를_랜덤으로_가져온다() {
+        // given
+        List<Board> boardList = new LinkedList<>();
+        for(int i = 0; i < 20; i++) {
+            Board board = createFakeBoard();
+            board.setUser(user);
+            boardList.add(board);
+        }
+        given(boardRepository.findBoardRandom()).willReturn(boardList);
+
+        // when
+        List<BoardResponseDto> boardResponseDtoList = boardService.findBoardsRandom();
+
+        // then
+        assertThat(boardResponseDtoList).hasSize(20);
+        verify(boardConverter, times(20)).entityToBoardResponseDto(any());
     }
 }

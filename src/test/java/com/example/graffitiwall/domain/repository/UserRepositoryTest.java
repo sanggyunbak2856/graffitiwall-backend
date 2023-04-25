@@ -105,4 +105,18 @@ public class UserRepositoryTest {
         assertThat(user).usingRecursiveComparison().isEqualTo(foundUser);
     }
 
+    @Test
+    @Transactional
+    void 유저_아이디로_유저_조회() {
+        // given
+        User user = createFakeUser();
+        userRepository.save(user);
+
+        // when
+        User foundUser = userRepository.findByUserId(user.getUserId());
+
+        // then
+        assertThat(user).usingRecursiveComparison().isEqualTo(foundUser);
+    }
+
 }

@@ -27,7 +27,7 @@ public class Test {
         User user = createFakeUser();
         userRepository.save(user);
 
-        for(int i = 0; i < 30; i++) {
+        for(int i = 0; i < 1; i++) {
             Board board = createFakeBoard();
             board.setUser(user);
             boardRepository.save(board);

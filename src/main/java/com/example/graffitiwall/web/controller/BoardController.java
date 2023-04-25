@@ -57,4 +57,10 @@ public class BoardController {
     public List<BoardResponseDto> findRandom() {
         return boardService.findBoardsRandom();
     }
+
+    @GetMapping("/popular")
+    public List<BoardResponseDto> findPopular() {
+        return boardService.findPopularBoards();
+    }
+
 }

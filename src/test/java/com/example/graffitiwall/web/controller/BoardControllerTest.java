@@ -26,6 +26,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.example.graffitiwall.factory.DummyObjectFactory.*;
@@ -195,6 +197,37 @@ class BoardControllerTest {
                 .andReturn();
 
         // then
+    }
+
+    @Test
+    @Transactional
+    void 인기있는_보드를_조회한다() throws Exception {
+        // given
+        User user = createFakeUser();
+        userRepository.save(user);
+        List<Board> boardList = new LinkedList<>();
+        for(int i = 0; i < 30; i++) {
+            Board board = createFakeBoard();
+            board.setUser(user);
+            boardRepository.save(board);
+            boardList.add(board);
+        }
+
+        for(int i = 0; i < 10; i++) {
+            long id = boardList.get(0).getId();
+            for(int j = 0; j < i * 10; j++) {
+                mockMvc.perform(get(url + "/" + id));
+            }
+        }
+
+        // when
+        MvcResult mvcResult = mockMvc.perform(get(url + "/popular"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        // then
+
     }
 
 }

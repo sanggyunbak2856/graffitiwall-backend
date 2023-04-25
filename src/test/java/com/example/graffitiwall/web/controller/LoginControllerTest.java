@@ -100,9 +100,6 @@ class LoginControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
-
-        Cookie jsessionid = mvcResult.getResponse().getCookie("JSESSIONID");
-        log.info(jsessionid.toString());
     }
 
     @Test

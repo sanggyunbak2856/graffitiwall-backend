@@ -83,10 +83,10 @@ class UserControllerTest {
 
         // when
         mockMvc.perform(patch(url + "/" + savedUser.getId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json)
-        ).andExpect(status().isOk())
-         .andDo(print());
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json)
+                ).andExpect(status().isOk())
+                .andDo(print());
     }
 
     @Test
@@ -187,6 +187,31 @@ class UserControllerTest {
                 .andReturn();
 
         // then
+
+    }
+
+    @Test
+    @Transactional
+    void 유저_아이디_중복조회시_아이디가_이미_존재하는_경우() throws Exception {
+        // given
+        User user = createFakeUser();
+        userRepository.save(user);
+
+        // when, then
+        mockMvc.perform(get(url + "/userid/" + user.getUserId() + "/duplicate"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @Transactional
+    void 유저_아이디_중복조회시_아이디가_이미_존재하지_않는_경우() throws Exception {
+        // given
+
+        // when, then
+        mockMvc.perform(get(url + "/userid/" + "test" + "/duplicate"))
+                .andExpect(status().isOk())
+                .andDo(print());
 
     }
 }

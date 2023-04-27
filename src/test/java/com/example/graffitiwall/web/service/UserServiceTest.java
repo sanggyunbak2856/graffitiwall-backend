@@ -13,10 +13,7 @@ import com.example.graffitiwall.web.converter.UserConverter;
 import com.example.graffitiwall.web.dto.IdResponseDto;
 import com.example.graffitiwall.web.dto.board.BoardResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
-import com.example.graffitiwall.web.dto.user.UserNicknameExistResponseDto;
-import com.example.graffitiwall.web.dto.user.UserResponseDto;
-import com.example.graffitiwall.web.dto.user.UserSaveDto;
-import com.example.graffitiwall.web.dto.user.UserUpdateDto;
+import com.example.graffitiwall.web.dto.user.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -184,5 +181,30 @@ class UserServiceTest {
 
         // then
         assertThat(userNicknameExist.isNicknameExist()).isEqualTo(false);
+    }
+
+    @Test
+    void 유저_아이디_중복조회_아이디_존재하는_경우() {
+        // given
+        User user = createFakeUser();
+        given(userRepository.findByUserId(user.getUserId())).willReturn(user);
+
+        // when
+        UserIdExistResponseDto userIdExist = userService.isUserIdExist(user.getUserId());
+
+        // then
+        assertThat(userIdExist.isIdExist()).isEqualTo(true);
+    }
+
+    @Test
+    void 유저_아이디_중복조회_아이디_존재하지_않는_경우() {
+        // given
+        given(userRepository.findByUserId(any())).willReturn(null);
+
+        // when
+        UserIdExistResponseDto userIdExist = userService.isUserIdExist("user");
+
+        // then
+        assertThat(userIdExist.isIdExist()).isEqualTo(false);
     }
 }

@@ -11,10 +11,7 @@ import com.example.graffitiwall.web.converter.UserConverter;
 import com.example.graffitiwall.web.dto.IdResponseDto;
 import com.example.graffitiwall.web.dto.board.BoardResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
-import com.example.graffitiwall.web.dto.user.UserNicknameExistResponseDto;
-import com.example.graffitiwall.web.dto.user.UserResponseDto;
-import com.example.graffitiwall.web.dto.user.UserSaveDto;
-import com.example.graffitiwall.web.dto.user.UserUpdateDto;
+import com.example.graffitiwall.web.dto.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,6 +78,19 @@ public class UserService {
         }
         return UserNicknameExistResponseDto.builder()
                 .nicknameExist(true)
+                .build();
+    }
+
+    @Transactional
+    public UserIdExistResponseDto isUserIdExist(String userId) {
+        User user = userRepository.findByUserId(userId);
+        if(user == null) {
+            return UserIdExistResponseDto.builder()
+                    .idExist(false)
+                    .build();
+        }
+        return UserIdExistResponseDto.builder()
+                .idExist(true)
                 .build();
     }
 }

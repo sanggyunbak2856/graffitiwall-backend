@@ -3,10 +3,7 @@ package com.example.graffitiwall.web.controller;
 import com.example.graffitiwall.web.dto.IdResponseDto;
 import com.example.graffitiwall.web.dto.board.BoardResponseDto;
 import com.example.graffitiwall.web.dto.postit.PostitResponseDto;
-import com.example.graffitiwall.web.dto.user.UserNicknameExistResponseDto;
-import com.example.graffitiwall.web.dto.user.UserResponseDto;
-import com.example.graffitiwall.web.dto.user.UserSaveDto;
-import com.example.graffitiwall.web.dto.user.UserUpdateDto;
+import com.example.graffitiwall.web.dto.user.*;
 import com.example.graffitiwall.web.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,8 +49,13 @@ public class UserController {
         return userService.findPostitByUserId(userRawId);
     }
 
-    @GetMapping("/{nickname}/duplicate")
+    @GetMapping("/nickname/{nickname}/duplicate")
     public UserNicknameExistResponseDto isNicknameExist(@PathVariable String nickname) {
         return userService.isUserNicknameExist(nickname);
+    }
+
+    @GetMapping("/userid/{userId}/duplicate")
+    public UserIdExistResponseDto isUserIdExist(@PathVariable String userId) {
+        return userService.isUserIdExist(userId);
     }
 }
